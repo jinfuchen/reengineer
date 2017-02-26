@@ -1,0 +1,115 @@
+
+\documentclass[conference]{IEEEtran}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{algorithm}
+\usepackage{textcomp}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{cite}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{subcaption}
+
+
+		
+\usepackage[colorlinks,
+linkcolor=red,
+anchorcolor=black,
+citecolor=black
+]{hyperref}
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\newcommand{\ian}[1]{\textcolor{blue}{{\it [Ian says: #1]}}}
+
+
+
+\begin{document}
+\pagestyle{plain}	
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Empirical Study of Just-in-Time Prediction of Performance Regression Introducing Change}
+
+% author names and affiliations
+% use a multiple column layout for up to two different
+% affiliations
+
+%\author{\IEEEauthorblockN{Jinfu Chen}
+%\IEEEauthorblockA{Department of Software Engineering \\
+%Concordia University\\
+%Montreal, Canada\\
+%Email: fu\_chen@encs.concordia.ca}
+%}
+% make the title area
+\maketitle
+\begin{comment}
+
+
+\begin{abstract}
+Performance is an important aspect of software quality. Performance issues may compromise user experiences, increase the operating cost of the system, and cause field failures. In fact, large software systems failures are often due to performance issues rather than functional bugs. One of the most prevalent performance issues is performance regression. Examples of performance regressions are response time degradation and higher than before resource utilization. Although prior research proposes various automated approaches that detect performance regressions, the detection is conducted after fact, i.e., after the system is built and deployed in the field or dedicated performance testing environments. On the other hand, there exists rich software quality research that examines the impact of code changes on software quality; while majority of prior findings do not use performance regression as a sign of software quality degradation. In this paper, we perform an exploratory study on the source code changes that introduce performance regressions. We conduct a statistically rigorous performance evaluation on 376 commits from two releases of \emph{Hadoop} and 135 commits from five releases of \emph{RxJava}. In particular, we identify performance regressions in each commit if there exists statistically significant and non-trivial performance degradation, in terms of either response time, CPU usage, Memory usage or I/O traffic, compared to the last commit. By manually examining the JIRA issue reports that are associated with the identified performance regression introducing commits, we find that the majority of the performance regressions are introduced while fixing other bugs. In addition, we find that most of such regressions are due to expensive function calls. Our findings suggest that developers may introduce performance regressions when completing code changing tasks without considering the impact on performance. Automated tooling support can be proposed to help developers be aware of the possible performance impact while changing source code.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+Performance Regression; Code Changes; Mining Software Repositories
+\end{IEEEkeywords}
+
+\end{comment}
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+\section{Introduction}
+% no \IEEEPARstart
+\label{sec:intro}
+\input{intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{related}
+
+\section{Approach}
+\label{sec:case}
+\input{case}
+
+\section{Case Study}
+\label{sec:results}
+
+In this section, we perform an exploratory study on the extracted performance regressions from our subject systems (\emph{Hadoop} and \emph{RxJava}). Our study aims to answer two research questions. For each research question, we present the motivation of the question, the approach that we use to answer the question, the results to the question and we discuss the results.
+
+\subsection*{RQ1: How well can we predict the existence of performance regression introducing change?}
+\input{rq1}
+
+\subsection*{RQ2: How well can we predict the magnitude of performance regression introducing change?}
+\input{rq2}
+
+\subsection*{RQ3: What are the important measures of performance regression introducing change?}
+
+
+%\section{Implications of Our Findings}
+%\label{sec:imp}
+%\input{imp}
+
+\section{Milestones}
+\label{sec:milestones}
+\input{milestones}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography} 
+
+
+% that's all folks
+\end{document}
+
+

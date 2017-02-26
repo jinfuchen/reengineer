@@ -1,0 +1,15 @@
+\noindent \textbf{Motivation}
+
+Prior research has conducted empirical studies on performance bugs \cite{Jin:2012}, using the reported performance bugs in issue reports (like JIRA issues). However, there may exist much more performance issues, such as performance regressions, that are not reported as JIRA issues. On the other hand, we evaluate performance of on each code commit instead of depending on JIRA issues. Intuitively, we may uncover instances of performance regressions that are not reported, and are not be able to investigated using the approach of prior studies. Therefore, in this research question, we start off by examining how prevalence are detected performance regression introducing changes. If we could not identify performance regressions in the subject systems, our study would be of less value to the community.
+
+%System performance is closely related to runtime context~\cite{SIGSOFT2007:Goldsmith}. Most of the time code changes can change the runtime context so that it would have a good or bad effect on the software performance.  But It is complicated and difficult to detect the performance regression especially  in large scale system. Therefore, in this research question we want to find the performance impact of the code changes in every consecutive commits between two releases in two open source system \emph{Hadoop} and \emph{RxJava}.
+
+\noindent \textbf{Approach}
+
+With the approach presented in Section~\ref{sec:case}, we obtain the results of performance evaluation for every commit in our subject systems. In order to study the prevalence of performance regression introducing changes, we first examine whether each commit would cause any test case to complete with a significantly longer response time. In particular, we only consider a test having performance regression if the response time is statistically significantly longer and the effect size is non-trivial. In addition, we use the effect sizes to measure the magnitude of the performance regression in each test. 
+
+Sometimes performance regressions may not cause impact on response time but rather cause a higher resource utilization. The high resource utilization, although may not directly impact user experience, may cause extra cost when deploying, operating and maintaining the system, with lower scalability and reliability. For example, systems that are deployed on cloud providers (like Microsoft Azure) may need to choose virtual machines with higher specification for higher resource utilization. Moreover, a software release with a higher memory usage is more prone to crashes from memory leaks. Therefore, we also use the physical metrics, i.e., CPU usage, Memory usage, I/O read and I/O write, as measurements of performance regressions. 
+
+In order to understand whether each performance metrics can provide extra information to others, we also calculate the Pearson correlation between the effect sizes of performance regressions calculated using different metrics. Therefore, we would understand whether we can use a smaller set of metrics to identify performance regressions.
+
+

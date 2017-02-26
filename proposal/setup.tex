@@ -1,0 +1,163 @@
+%\usepackage{multirow}
+%\usepackage{graphicx}
+%%\usepackage[pdftex]{graphicx}
+%%\usepackage{url}
+%\usepackage[hyphens]{url}
+%\usepackage[colorlinks=false, linkcolor=blue, citecolor=blue, bookmarks=true,pagebackref=false]{hyperref}
+%\usepackage{hypernat}
+\usepackage{listings}
+%\usepackage{framed}
+%%\usepackage{stfloats}
+%%\usepackage[pdftex]{graphicx}
+%\usepackage{booktabs}
+%%\usepackage{authblk}
+%\usepackage{balance}
+%\usepackage{fancybox}
+\usepackage{verbatim}
+%\usepackage[usenames,dvipsnames]{color}
+%\usepackage[numbers]{natbib}
+%\usepackage{cite}
+
+\usepackage{cite}
+%\usepackage[pdftex]{graphicx}
+%\usepackage[cmex10]{amsmath}
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+\usepackage{stfloats}
+\usepackage{textcomp}
+\usepackage{booktabs, tabularx}
+\usepackage{rotating}
+%\usepackage[dvipsnames, gray]{xcolor}
+\usepackage[dvipsnames]{xcolor}
+%\usepackage[round,sort]{natbib}
+\usepackage{fancybox}
+ \usepackage{multirow}
+
+
+%\usepackage{hypernat}
+
+\usepackage{url}
+
+\usepackage[caption=false,font=footnotesize]{subfig}
+\usepackage{balance}
+
+%\usepackage{caption}
+
+%\renewcommand\thesubfigure{\Alph{subfigure}}
+
+%\RequirePackage{caption}
+\usepackage{array}
+
+
+
+%\newcolumntype{^}{>{\currentrowstyle}}
+%\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+ % #1\ignorespaces
+%}
+
+\newcommand{\className}[1]{\textbf{\sf #1}}
+\newcommand{\functionName}[1]{\textbf{\sf #1}}
+\newcommand{\objectName}[1]{\textbf{\sf #1}}
+
+
+\newcommand{\annotation}[1]{\textbf{#1}}
+\newcommand{\todo}[1]{\textcolor{Red}{\textbf{[[TODO: #1]]}}}
+\newcommand{\fetch}[1]{\textbf{\em #1}}
+\newcommand{\parhead}[1]{\vspace{1mm} \noindent {\bf #1}}
+\newcommand{\ian}[1]{\textcolor{blue}{{\it [Ian says: #1]}}}
+\newcommand{\ahmed}[1]{\textcolor{red}{{\it [AHMED says: #1]}}}
+\newcommand{\peter}[1]{\textcolor{blue}{{\it [Peter says: #1]}}}
+\newcommand{\ahmedPof}[1]{\textcolor{red}{}}
+\newcommand{\jack}[1]{\textcolor{Purple}{{\it [Jack says: #1]}}}
+\newcommand{\pattern}[1]{\emph{#1}}
+
+
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+\newenvironment{smalldescription}{
+   \setlength{\topsep}{0pt}
+   \setlength{\partopsep}{0pt}
+   \setlength{\parskip}{0pt}
+   \begin{description}
+   \setlength{\leftmargin}{.2in}
+   \setlength{\parsep}{0pt}
+   \setlength{\parskip}{0pt}
+   \setlength{\itemsep}{0pt}}{\end{description}}
+
+%<<<<<<< .mine
+\newcommand{\rqbox}[1]{
+%\vspace{-0.35cm}
+%\begin{center} 
+%\setlength{\fboxsep}{7pt}
+%\ovalbox{\begin{minipage}{3.1in} 
+%{\em #1}
+%\end{minipage}} 
+%
+%
+%
+%
+%\end{center}}
+
+
+%=======
+%\newenvironment{smallenumerateX}{
+%   \setlength{\topsep}{0pt}
+%   \setlength{\partopsep}{0pt}
+%   \setlength{\parskip}{0pt}
+%   \begin{enumerate}
+%   \setlength{\leftmargin}{.2in}
+%   \setlength{\parsep}{0pt}
+%   \setlength{\parskip}{0pt}
+%   \setlength{\itemsep}{0pt}}{\end{enumerate}}
+
+%>>>>>>> .r2817
+%=======
+%\vspace{-0.52cm}
+\begin{center}
+%\vspace{-0.2cm}
+\cornersize{.2} 
+\setlength{\fboxsep}{7pt}
+\ovalbox{\begin{minipage}{3.1in}
+{\em #1}
+\end{minipage}}
+%\vspace{-0.1cm}
+
+\end{center}}
+
+
+
+
+
+
+
+\newcommand{\sqlbox}[1]{
+\begin{center}
+%\vspace{-0.1cm}
+
+\cornersize{.0} 
+\setlength{\fboxsep}{7pt}
+\ovalbox{\begin{minipage}{3in}
+{\em #1}
+\end{minipage}}
+%\vspace{-0.1cm}
+
+\end{center}}
+%>>>>>>> .r2817
+
+
+% Hypothesis box	
+% ------------------------------------------------------------------------------	
+\newcommand{\hypobox}[1]{\begin{center}%	
+	\noindent\thicklines\setlength{\fboxsep}{7pt}%	
+	\cornersize{0}\Ovalbox{\begin{minipage}{3.2in}%
+	%\cornersize{0}\Ovalbox{\begin{minipage}{4in}%	
+		\vspace{-0.18cm}
+		\textit{#1}
+		\vspace{-0.18cm}
+		\end{minipage}} \end{center}}	
+% ------------------------------------------------------------------------------

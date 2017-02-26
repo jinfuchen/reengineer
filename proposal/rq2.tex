@@ -1,0 +1,11 @@
+
+\noindent \textbf{Motivation}
+
+In RQ1, we find that there exist prevalent performance regressions that are introduced by code changes. If we can understand what cause the introduction of these performance regressions, we may provide guidance or automated tooling support for developer to prevent the regressions during code change. 
+
+\noindent \textbf{Approach}
+
+We follow two steps in our approach to discover the reasons of introducing performance regressions. First, we investigate the high-level context when these performance regressions are introduced. We identify the type of issues as the context (fixing a bug or developing new features) that are related to the performance regression introducing changes. 
+
+Second, we would like to know the code level root-causes (e.g., what kind of code change) of why the performance regressions are introduced. In particular, for each commit, we manually examine all the code changes and the corresponding test cases where performance regression are identified. We follow an iterative approach to identify the root-causes that the code change introduces performance regression, until we could not find any new reasons. 
+
