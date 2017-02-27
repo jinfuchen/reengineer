@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Related Work}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Performance regression detection}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Prediction of JIT software defect}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Empirical studies on performance}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Approach}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Subject systems}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Predicting performance regression introducing changes}{section.3}% 8
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Filtering commits}{subsection.3.2}% 9
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Extracting change measures}{subsection.3.2}% 10
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Identification of performance regression introducing changes}{subsection.3.2}% 11
+\BOOKMARK [3][-]{subsubsection.3.2.4}{Data Preparation}{subsection.3.2}% 12
+\BOOKMARK [3][-]{subsubsection.3.2.5}{Build prediction model of JIT performance regression}{subsection.3.2}% 13
+\BOOKMARK [1][-]{section.4}{Case Study}{}% 14
+\BOOKMARK [1][-]{section.5}{Milestones}{}% 15
+\BOOKMARK [1][-]{section*.6}{References}{}% 16
