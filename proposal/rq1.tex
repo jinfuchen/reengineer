@@ -29,5 +29,19 @@ We find 243 and 91 commits that contain at least one test with performance regre
 	\end{tabular}
 \end{table*}
 
-We employ our prediction model into these two systems and the result is shown in Table~{}.
+We employ our prediction model into these two systems and the result is shown in Table~\ref{tab:logistic}.
+
+\begin{table}[]
+	\centering
+	\footnotesize
+	\caption{Precision and recall of prediction}
+	\label{tab:logistic}
+\begin{tabular}{|c|c|r|c|r|c|r|c|r|}
+	\hline
+	\multirow{2}{*}{} & \multicolumn{2}{c|}{Runtime}                          & \multicolumn{2}{c|}{CPU}                              & \multicolumn{2}{c|}{Memory}                           & \multicolumn{2}{c|}{IO}                               \\ \cline{2-9} 
+	& pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} \\ \hline
+	Hadoop            & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
+	Rxjava            & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
+\end{tabular}
+\end{table}
 

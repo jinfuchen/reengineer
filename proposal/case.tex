@@ -71,7 +71,7 @@ To conduct our research, we extract the domain commit-level change measures and 
 
 \textbf{Commit-level change measures.} We consider 12 change measures grouped into five dimensions.
 
-\textbf{Performance-relevant change measures.} Simultaneously, we extract performance-relevent change measures automatically, including CC (changing conditions), CL (changing loops), FC (changing function calls), IL (Introducing locks and synchronization) and EV (expensive variables). The first three measures are most relevent to performance~\cite{ACM2016:Luo}. Also, after we find the performance regression we check the source code manully and find that IL and EV also the most root-cause of regression. 
+\textbf{Performance-relevant change measures.} Simultaneously, we extract performance-relevent change measures automatically, including CC (changing conditions), CL (changing loops), FC (changing function calls), IL (Introducing locks and synchronization) and EV (expensive variables). The first three measures are most relevent to performance~\cite{ACM2016:Luo}. Also, after we find the performance regression we check the source code manully and find that IL and EV are also the most root-cause of regression. 
 
 CC can change the code that is executed and may cause more operation eventually executed by the software, leading to performance regressions. CL may significantly slow down performance. Locks are expensive actions for software performance. IL means that introducing locks and synchronization can suspend threads waiting on a lock until released, causing performance degradation on response time. FC is that developers may introduce expensive function calls with the function execution expensive by itself or executed a large number of time. EV means that some variables are more expensive to be held in memory and need more resources to visit or operate. 
 
@@ -106,21 +106,25 @@ To extract performance-relevant change measures, we utilize tool \emph{srcML}~\c
 \end{table}
 \subsubsection{Identification of  performance regression introducing changes}
 In more detail, we give a list of particular step:
-\begin{enumerate}[(i)]
-\item \textbf{Identifying impacted tests.} In order to evaluate performance of each code commit, we use the tests and performance micro-benchmarks that are readily available in the source code of our subject systems. As mature software projects, each subject system consist of a large amount of test cases. 
+%\begin{enumerate}[(i)]
+%\item 
+
+\textbf{Identifying impacted tests.} In order to evaluate performance of each code commit, we use the tests and performance micro-benchmarks that are readily available in the source code of our subject systems. As mature software projects, each subject system consist of a large amount of test cases. 
 For example, \emph{Hadoop} release2.7.3 contains 1786 test cases in total. Exercising all test cases may cause two issues to our performance evaluation: 1) the test cases that are not impacted by the code change would dilute the performance impact from the code changes and introduce noise in the performance evaluation and 2) the large amounts of un-impacted test cases would requires extra resources for performance evaluation (e.g., much longer test running time). 
 
 Therefore, in this step, we leverage a heuristic to identify impacted tests for each commit. In particular, we find that \emph{Hadoop} test cases follow a naming convention that the name of the test files contain that same name of the source code files being tested. For example, a test file named \emph{TestFSNamesystem.java} tests the functionality of \emph{FSNamesystem.java}. Hence, for each changed source code file in a commit, we automatically identify the test files. 
 
-\noindent \textbf{Dealing with changed tests.} Some commits may change source code and test code at the same time. Such changed test cases would bias the performance evaluation if much testing logic is added, removed or modified in the test cases. In order to minimize the impact of changed test cases in performance evaluation, we opt to use the test code before the code change, since the new version of the test cases may include new features of the system, which is not the major concern of performance regression. However, in the cases where old test cases cannot compile or failed, we use the new test cases, since the failure of the compilation or the tests indicates that the old feature may be outdated. Finally, if both new and old test cases are failed or un-compliable, we do not include this test in the performance evaluation. In total, we have 132 tests with 106 commits that use the new tests to evaluate performance and 21 test with 19 commits that are not included in our performance evaluation. There exist only six commits that are not included at all because all of their tests are either un-compliable or failed.
+%\textbf{Dealing with changed tests.} Some commits may change source code and test code at the same time. Such changed test cases would bias the performance evaluation if much testing logic is added, removed or modified in the test cases. In order to minimize the impact of changed test cases in performance evaluation, we opt to use the test code before the code change, since the new version of the test cases may include new features of the system, which is not the major concern of performance regression. However, in the cases where old test cases cannot compile or failed, we use the new test cases, since the failure of the compilation or the tests indicates that the old feature may be outdated. Finally, if both new and old test cases are failed or un-compliable, we do not include this test in the performance evaluation. In total, we have 132 tests with 106 commits that use the new tests to evaluate performance and 21 test with 19 commits that are not included in our performance evaluation. There exist only six commits that are not included at all because all of their tests are either un-compliable or failed.
 
-\noindent \textbf{Leveraging micro-benchmarks for \emph{RxJava}. }Fortunately, \emph{RxJava} provides a slew of micro-benchmarks with the goal of easing performance evaluation. We find that these performance micro-benchmarks are designed to evaluate performance of the software as a cross-cutting concern, instead of evaluating any particular features separately. Therefore, we opt to run all 76 micro-benchmarks from \emph{RxJava}. In the rest of this paper, we also refer these micro-benchmarks as test cases to ease the description of our results.
+\textbf{Leveraging micro-benchmarks for \emph{RxJava}. }Fortunately, \emph{RxJava} provides a slew of micro-benchmarks with the goal of easing performance evaluation. We find that these performance micro-benchmarks are designed to evaluate performance of the software as a cross-cutting concern, instead of evaluating any particular features separately. Therefore, we opt to run all 76 micro-benchmarks from \emph{RxJava}. In the rest of this paper, we also refer these micro-benchmarks as test cases to ease the description of our results.
 
-\item \textbf{Evaluating performance.}
+%\item 
+\textbf{Evaluating performance.}
 In this step, we exercise the prepared test cases and the performance micro-benchmarks to evaluate performance of each commit. We setup our performance evaluation environment based on Azure node type Standard F8s (8 cores, 16 GB memory). In order to generate statistically rigorous performance results, we adopt the practice of repetitive measurements~\cite{peterfse} to evaluate performance. 
 In particular, each test or performance micro-benchmark are executed 30 times independently. We collect both domain level and physical level performance metrics during the tests. We measure the response time of each test case as domain level performance metric. A shorter response time indicating better performance of the software. We use a performance monitoring software named \emph{psutil}~\cite{psutil} to monitor physical level performance metrics, i.e., the CPU usage, Memory usage, I/O read and I/O write of the software, during the test.
 
-\item \textbf{Statistical analyses on performance evaluation.}
+%\item 
+\textbf{Statistical analyses on performance evaluation.}
 Statistical tests have been used in prior research and in practice to detect whether performance metric values from two tests reveal performance regressions \cite{AlGhmadi}. After having the performance evolution results, we perform statistical analyses to determine the existence and the magnitude of performance regression in a statistically rigorous manner. 
 We use Student’s t-test to examine if there exists statistically significant difference (i.e., p-value $<$ 0.05) between the means of the performance metrics. A p-value $<$ 0.05 means that the difference is likely not by chance. 
 A t-test assumes that the population distribution is normally distributed. Our performance measures should be approximately normally distributed given the sample size is large enough according to the central limit theorem \cite{Chen:2014}.
@@ -140,10 +144,16 @@ large& \textrm{if $0.8 < Cohen\textquotesingle s \ d$}
 \end{array} \right.
 $$
 
-\end{enumerate}
-\subsubsection{Data Preparation}
-Before utilize the attributes to build our prediction models, we need to employ data cleaning to remove the data without file-level changes. We employ data reduction to make sure to remove highly correlated measures. And to avoid data skew, we apply data transformation to normalize data.
-%属性相关性,归一化数据
+%\end{enumerate}
+\subsubsection{Data Preprocessing}
+Before utilize the attributes to build our prediction models, we need to employ data preprocessing to make sure the data quality, including accuracy, completeness, consistency and timeliness. In our project, we perform data cleaning to fill in missing values, data transformation to normalize the raw data, and remove redundant data.
+
+In all the measures, missing value happens in the \emph{FIX, EXP and REXP}. Because a few commits without issue report so we cannot extract the purpose of this commit (FIX). And a few commits' contributors are not in the \emph{Hadoop} contributor official list~\cite{hadoop_2017} so we cannot calculate the EXP and REXP. In this case, we use a global constant to fill in the missing value. We replace all missing values by the same constant ``Unknown`` and ``1`` in measure FIX and EXP \& REXP, respectively.
+
+The values of different attributes may have large different range due to various measurement units. It tends to give such an attribute with smaller units greater effect or weight. To help avoid data skew and give all measures an equal weight, the data should be normalized or standardized. In particular, we perform \emph{Min-max normalization} to transform our original data.
+
+Redundancy is an essential issue in the data integration, which means that a measure may be redundant if it is derived from another measure or a set of measures. We employ correlation analysis to remove highly correlated measures. In particular, we use \emph{Correlation-based Feature Selection} and \emph{Information Gain Rate} technique to solve this problem.
+
 \subsubsection{Build prediction model of JIT performance regression}
 To predict the existence of performance regression introducing change, we will build the logistic regression model to firstly to predict whether or not the change causes regression. If thus, we will build ordinal model to predict the magnitude of performance regression introducing change.
 
