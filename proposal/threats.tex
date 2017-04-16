@@ -1,0 +1,51 @@
+\subsection{External Validity}
+
+\textbf{Generalizing our results. }In our case study, we only focus on fifteen releases from two open source systems, i.e., \emph{Hadoop} and \emph{RxJava}. Both of the subject systems are mainly written in \emph{Java} languages. Some of the findings might not be generalizable to other systems or other programming languages. Future studies may consider more releases from more systems and even different programming languages (such as C\#, C++). 
+
+
+\subsection{Internal Validity}
+
+\textbf{Subjective bias of manual analysis.} The manual analysis for root-causes of performance regression is subjective by definition, and it is very difficult, if not impossible, to ensure the correctness of all the inferred
+root-causes. We classified the root-causes into six categories; however, there may be different categorizations. Combining our manual analysis with controlled user studies on these performance regressions can further address this threat.
+
+
+\textbf{Causality between code changes and performance regressions. }By manually examining the code changes in each commit, we identify the root-causes of each performance regression. However, the performance regression may be not caused by the particular code change but due to unknown factors. Furthermore, the performance regression may not be introduced by one change to the source code but a combination of confounding factors. In order to address this threat, future work can leverage more sophisticated causality analysis based on code mutation can be leveraged to confirm the root-cause of the performance regression. 
+
+
+\textbf{Selection of performance metrics.} Our approach requires performance metrics to measuring performance. In particular, we pick one commonly used domain level and four commonly used physical level performance metrics based on the nature of the subject systems. There exist a large number of other performance metrics. However, practitioners may require system-specific expertise to select an appropriate set of performance metrics that are important to their specific software. Future work can include more performance metrics based on the characteristic of the subject systems. 
+
+
+
+\subsection{Construct Validity}
+
+
+\textbf{Monitoring performance of subject systems.} Our study is based on the ability to accurately monitor performance of our subject systems. This is based on the assumption that the performance monitoring library, i.e. \emph{psutil} can successfully and accurately providing performance metrics. This tool monitoring library is widely used in performance engineering research~\cite{peterfse,tarekmsr16}. To further validate our findings, other performance monitoring platforms (such as PerfMon~\cite{perfmon}) can be used. 
+
+\textbf{Noise in performance monitoring results.} There always exists noise when monitoring performance\cite{asplos2012noiseinperf}. For example, the CPU usage of the same software under the same load can be different in two executions. In order to minimize such noise, for each test or performance micro-benchmark, we repeat the execution 30 times independently. Then we use a statistically rigorous approach to measuring performance regressions. Further studies may opt to increase the number of repeated executions to further minimize the threat based on their time and resource budget.
+
+\textbf{Issue report types. }We depend on the types of issues that are associated with each performance regression introducing commit. The issue report type may not be entirely accurate. For example, developers include extra code changes in issue reports with type \emph{documentation}. Firehouse-style user studies~\cite{thomasfritzfirehouse} can be adopted to better understand the context of performance regression introducing changes. 
+
+\textbf{The effectiveness of the tests.} In our case study, we leverage test cases and performance micro-benchmarks to evaluate performance of each commit. In particular, for \emph{Hadoop} our heuristic of identifying impacted tests are based on naming conventions between source code files and test files. In addition, we also rely on the readily available performance micro-benchmarks in \emph{RxJava}. Our heuristic and the performance micro-benchmarks both may not cover all the performance impacts from code changes. However, the goal of our paper is not to detect all performance regression in the history of our subject systems, but rather collect a sample of performance regression introducing commits for our further investigation. Future work may consider using more sophisticated analysis to identify impacted tests~\cite{Qusef:2014:RTT:2565887.2566083} to address this threat. Moreover, conducting systematic long-lasting performance tests may minimize this threat, the long-lasting time of these test (often more than eight hours) make it almost impossible for every commit. It is still an open research challenge of how to design in-expensive yet representative performance tests, which our case study signifies the importance of breakthrough in such research area. 
+
+
+\textbf{In-house performance evaluation.} We evaluate the performance of our subject systems with our in-house performance evaluation environment. Although we minimize the noise in the environment to avoid bias, such an environment is not exactly the same as in-field environment of the users. There is a threat that the performance regressions identified in our case study may not be noticeable in the field. To minimize the threat, we only consider the performance regressions that have non-trivial (turn out to be mostly large in our experiment) effect sizes. In addition, with the advancing of DevOps, more operational data will become available for future mining software repository research. Research based on field data from the real users can address this threat. 
+
+%In the two open source system, we choose the test cases from \emph{Hadoop} and \emph{RxJava}. We want to prove that the test cases constructed by the developer themselves can cover all the dependence of the code changes. In \emph{Hadoop}, tht \emph{Java} source codes we choose have corresponding test \emph{Java} files. In our approach, if the source code of java code and test java file changes we will use the test case both from old commit and new commit. So that we can cover all the code changes and test all the code changes. In system \emph{RxJava}, it contains the JMH benchmarks in the \emph{jmh} folder so we can adopt the performance test cases. The benchmarks developed by the system developers aim to test the performance of the system so we infer that it can cover the dependence of the code changes.
+
+
+
+
+%\ian{May not over all regressions}
+
+
+%\textbf{\emph{Code changes impact analysis}.}
+%We combine manual analysis and automatical analysis by tool \emph{FaultTracer} to analyze the reason why the performance changes. All the two parts use static analysis for check the code changes impact. However, static analyses generally suffer from the problem of false positives. Static analysis contains the whole condition paths the program will run. But in fact a few condition paths might be seldom or never executed. Therefore, we need to build the real environment to run the particular model which cover the code changes.
+
+
+%\textbf{The accuracy of the code change impact analysis}
+%When we have detected the particular problematic commit we want to research the code change impact. In this part we develop a script to get the issue type of each probematic commit and classify the issue into \emph{Bug}, \emph{Improvement} and \emph{Test} in \emph{Hadoop}, \emph{Bug}, \emph{Documentation}, \emph{Test} and \emph{enhancement} in \emph{RxJava}. We can infer that the commit aiming to fix bug would be more possible to cause regression.
+
+
+%\textbf{The accuracy of our approach on detecting performance regression assessment}
+%In our approach assessment methodology, we measure the effectiveness of detect on performance regression. To study the accuracy of this methodology, we create the same real environments to run the particular \emph{Hadoop} and \emph{RxJava} models (the models we run can cover the code changes) in the problematic commits and its parent commit. For each commit, we execute each test case and the benchmarks in 30 times separately. Then we will collect the performance metrics together and compare the metrics by utilizing t-test and effect size to measure if the performance of current commit degrades or not.
+
