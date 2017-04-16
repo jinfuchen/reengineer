@@ -67,12 +67,16 @@ As the first step of our approach, we start off by filtering commits in order to
 
 In practice, there may exist multiple commits that are made to accomplish one task, making some of the commits temporary. We would like to avoid considering the performance regressions that are introduced in such temporary commits. Since \emph{Hadoop} uses JIRA as their issue tracking system and \emph{RxJava} uses the internal issue tracking system in Github, we use the issue id that is mentioned in each commit message to identify the task of each commit. If multiple commits are associated with the same issue, we only consider the snapshot of the source code after the last commit. 
 \subsubsection{Extracting change measures}
-To conduct our research, we extract the domain commit-level change measures and the file-level performance-relevant change measures from the CVS repositories of the projects. 
+To conduct our research, we extract the domain commit-level change measures and the file-level performance-relevant change measures from the CVS repositories of the projects. The overview of the change measures is shown in Table~\ref{tab:measures}. 
 
-\textbf{Commit-level change measures.} We consider 12 change measures grouped into five dimensions (see Table~\ref{tab:measures}).
+\textbf{Commit-level change measures.} We consider 12 change measures grouped into five dimensions.
 
-\textbf{Performance-relevant change measures.} Simultaneously, we extract file-level change measures by manually, including EFC (having expensive function calls), CC (changing conditions), PEP (Passing expensive parameters), EL (having extra loops), EV (Using expensive variables) and IL (Introducing locks and synchronization). 
-The overview of the change measures is shown in Table~\ref{tab:measures}. 
+\textbf{Performance-relevant change measures.} Simultaneously, we extract performance-relevent change measures automatically, including CC (changing conditions), CL (changing loops), FC (changing function calls), IL (Introducing locks and synchronization) and EV (expensive variables). The first three measures are most relevent to performance~\cite{ACM2016:Luo}. Also, after we find the performance regression we check the source code manully and find that IL and EV also the most root-cause of regression. 
+
+CC can change the code that is executed and may cause more operation eventually executed by the software, leading to performance regressions. CL may significantly slow down performance. Locks are expensive actions for software performance. IL means that introducing locks and synchronization can suspend threads waiting on a lock until released, causing performance degradation on response time. FC is that developers may introduce expensive function calls with the function execution expensive by itself or executed a large number of time. EV means that some variables are more expensive to be held in memory and need more resources to visit or operate. 
+
+To extract performance-relevant change measures, we utilize tool \emph{srcML}~\cite{srcml_2017} to convert the same source code from current commit and its parent commit to XML file. Afterward, we employ \emph{diff} tool and regular expression to compare the source code.
+
 \begin{table}[]
 	\centering
 	\small
@@ -88,14 +92,15 @@ The overview of the change measures is shown in Table~\ref{tab:measures}.
 	\multirow{3}{*}{Size}        & LA      & Lines of code added                                                                                          \\ \cline{2-3} 
 	& LD      & Lines of code deleted                                                                                        \\ \cline{2-3} 
 	& LT      & Lines of code before the change                                                                              \\ \hline
-	Purpose                      & FIX     & Whether or not the change is to fix a bug                                                                    \\ \hline
+	Purpose                      & FIX     & Whether or not the changes fix a bug                                                                    \\ \hline
 	\multirow{2}{*}{History}     & NDEV    & \begin{tabular}[c]{@{}l@{}}Number of developers that changed \\ the modified files\end{tabular}              \\ \cline{2-3} 
 	& AGE     & \begin{tabular}[c]{@{}l@{}}The average time interval between the \\ last and the current change\end{tabular} \\ \hline
 	\multirow{2}{*}{Experience}  & EXP     & Developer experience                                                                                         \\ \cline{2-3} 
 	& REXP    & Recent developer experience                                                                                  \\ \hline
-	\multirow{4}{*}{Perf.} & CC      & Number of changing condition                                                                                 \\ \cline{2-3} 
+	\multirow{5}{*}{Perf.} & CC      & Number of changing condition                                                                                 \\ \cline{2-3} 
 	& CL      & Number of changing loop                                                                                      \\ \cline{2-3} 
 	& IL      & \begin{tabular}[c]{@{}l@{}}Number of introducing locks or \\ synchronization\end{tabular}                    \\ \cline{2-3} 
+	& EV      & Number of expensive variable                                                                         \\ \cline{2-3}
 	& FC      & Number of changing function call                                                                             \\ \hline
 \end{tabular}
 \end{table}
