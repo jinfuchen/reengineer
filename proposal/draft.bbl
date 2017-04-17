@@ -161,6 +161,23 @@ M.~D. Syer, W.~Shang, Z.~M. Jiang, and A.~E. Hassan, ``Continuous validation of
   performance test workloads,'' \emph{Automated Software Engineering}, vol.~24,
   no.~1, pp. 189--231, 2017.
 
+\bibitem{matsumoto2010analysis}
+S.~Matsumoto, Y.~Kamei, A.~Monden, K.-i. Matsumoto, and M.~Nakamura, ``An
+  analysis of developer metrics for fault prediction,'' in \emph{Proceedings of
+  the 6th International Conference on Predictive Models in Software
+  Engineering}.\hskip 1em plus 0.5em minus 0.4em\relax ACM, 2010, p.~18.
+
+\bibitem{eick2001does}
+S.~G. Eick, T.~L. Graves, A.~F. Karr, J.~S. Marron, and A.~Mockus, ``Does code
+  decay? assessing the evidence from change management data,'' \emph{IEEE
+  Transactions on Software Engineering}, vol.~27, no.~1, pp. 1--12, 2001.
+
+\bibitem{smith2003more}
+C.~U. Smith and L.~G. Williams, ``More new software performance antipatterns:
+  Even more ways to shoot yourself in the foot,'' in \emph{Computer Measurement
+  Group Conference}.\hskip 1em plus 0.5em minus 0.4em\relax Citeseer, 2003, pp.
+  717--725.
+
 \bibitem{srcml_2017}
 \BIBentryALTinterwordspacing
 ``srcml,'' 2017. [Online]. Available: \url{http://www.srcml.org/}
@@ -213,16 +230,5 @@ B.~A. Kitchenham, S.~L. Pfleeger, L.~M. Pickard, P.~W. Jones, D.~C. Hoaglin,
 J.~Hartung, G.~Knapp, and B.~K. Sinha, \emph{Statistical meta-analysis with
   applications}.\hskip 1em plus 0.5em minus 0.4em\relax John Wiley \& Sons,
   2011, vol. 738.
-
-\bibitem{hadoop_2017}
-\BIBentryALTinterwordspacing
-A.~Hadoop, ``Apache hadoop open source project: Contributions listing,'' 2017.
-  [Online]. Available: \url{https://www.openhub.net/p/Hadoop/contributors/}
-\BIBentrySTDinterwordspacing
-
-\bibitem{Hall:2009:weka}
-M.~Hall, E.~Frank, G.~Holmes, B.~Pfahringer, P.~Reutemann, and I.~H. Witten,
-  ``The weka data mining software: An update,'' \emph{SIGKDD Explor. Newsl.},
-  vol.~11, no.~1, pp. 10--18, Nov. 2009.
 
 \end{thebibliography}
