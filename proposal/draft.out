@@ -1,0 +1,19 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Related Work}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Prediction of JIT software defect}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Empirical studies on performance}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Approach}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Subject systems}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{Predicting performance regression introducing changes}{section.3}% 7
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Filtering commits}{subsection.3.2}% 8
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Extracting change measures}{subsection.3.2}% 9
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Identification of performance regression introducing changes}{subsection.3.2}% 10
+\BOOKMARK [3][-]{subsubsection.3.2.4}{Data Preprocessing}{subsection.3.2}% 11
+\BOOKMARK [3][-]{subsubsection.3.2.5}{Build prediction model of JIT performance regression}{subsection.3.2}% 12
+\BOOKMARK [1][-]{section.4}{Case Study}{}% 13
+\BOOKMARK [1][-]{section.5}{Threat to Validity}{}% 14
+\BOOKMARK [2][-]{subsection.5.1}{External Validity}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.2}{Internal Validity}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.3}{Construct Validity}{section.5}% 17
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 18
+\BOOKMARK [1][-]{section*.11}{References}{}% 19
