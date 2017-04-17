@@ -3,17 +3,15 @@
 
 %System performance is closely related to runtime context~\cite{SIGSOFT2007:Goldsmith}. Most of the time code changes can change the runtime context so that it would have a good or bad effect on the software performance.  But It is complicated and difficult to detect the performance regression especially  in large scale system. Therefore, in this research question we want to find the performance impact of the code changes in every consecutive commits between two releases in two open source system \emph{Hadoop} and \emph{RxJava}.
 
- \textbf{Data and Approach}
+ \textbf{Data and Approach.}
 To answer RQ1, we build a logistic regression prediction model for the risk of performance regression introducing change baesd on the commit-level and file-level measures in Table~\ref{tab:measures}. With the approach presented in Section~\ref{sec:case}, we obtain the results of performance evaluation (1 is regression, 0 is not regression) for every test case in our subject systems. In particular, we not only consider a test having performance regression if the response time is statistically significantly longer, but also think over the resource utilization. Sometimes performance regressions may not cause impact on response time but rather cause a higher resource utilization. The high resource utilization, although may not directly impact user experience, may cause extra cost when deploying, operating and maintaining the system, with lower scalability and reliability. 
 %For example, systems that are deployed on cloud providers (like Microsoft Azure) may need to choose virtual machines with higher specification for higher resource utilization. Moreover, a software release with a higher memory usage is more prone to crashes from memory leaks. 
 Therefore, we also use the physical metrics, i.e., CPU usage, Memory usage, I/O read and I/O write, as measurements of performance regressions. 
 
 To validate how well the model predict performance regression introducing changes, we use two metrics, \emph{precision} and \emph{recall} to measure the model.  At the same time, to verify the stability of the prediction, we employ 10-fold cross validatoin to test the prediction model.
 
-\jin{add data preprocess here.}
-
  \textbf{Results.}
-We find 243 and 91 commits that contain at least one test with performance regression in at least one performance metric for \emph{Hadoop} and \emph{RxJava}, respectively. In total of 1,270 executed tests from \emph{Hadoop} and 7,600 executed tests from \emph{RxJava}, 129 and 1,410 have statistically significantly slower response time with medium or large effect sizes, respectively. When examining the effect sizes of the detected performance regressions, we find that there exist more performance-regression-prone tests with large effect sizes than medium (see Table~\ref{tab:effect}). In addition, we detect more tests with performance regressions in CPU and Memory usage, than other performance metrics. Since CPU and Memory usage both have large impact on the capacity of the software systems, these regressions may impact reliability or financial cost of the software system. 
+\textbf{Performance regressions are not rare instances.} We find 243 and 91 commits that contain at least one test with performance regression in at least one performance metric for \emph{Hadoop} and \emph{RxJava}, respectively. In total of 1,270 executed tests from \emph{Hadoop} and 7,600 executed tests from \emph{RxJava}, 129 and 1,410 have statistically significantly slower response time with medium or large effect sizes, respectively. When examining the effect sizes of the detected performance regressions, we find that there exist more performance-regression-prone tests with large effect sizes than medium (see Table~\ref{tab:effect}). In addition, we detect more tests with performance regressions in CPU and Memory usage, than other performance metrics. Since CPU and Memory usage both have large impact on the capacity of the software systems, these regressions may impact reliability or financial cost of the software system. 
 \begin{table*}[tbh]
 	\centering
 	\small
@@ -29,5 +27,23 @@ We find 243 and 91 commits that contain at least one test with performance regre
 	\end{tabular}
 \end{table*}
 
-We employ our prediction model into these two systems and the result is shown in Table~{}.
+ \textbf{Our predictor achieves an average precision of 80\% percent and recall of 80\% percent.} We employ our prediction model into these two systems and the result is shown in Table~\ref{tab:logistic}. We can find that the average precision of \jin{X} percent in \emph{Hadoop} is higher than the average precision of \jin{Y} percent in \emph{Rxjava}. We infer that there are two reasons: 1) It is the size of the dataset that causes this distinction. The number of tuple is 1120 in \emph{Hadoop} and 7600 in \emph{Rxjava}. The larger size of the dataset is, the more strong the robustness is. 2) The measures EXP and REXP  are incomplete (missing value) in \emph{Hadoop} and we fill in the missing value by using a global constant. The filled-in value may not be correct and bias the original data.
+ 
+ \textbf{Our predictor performs better in the class of \emph{Runtime} regression.} In the four classification types, we find that the preditor performs better (\jin{X\%}) in the metrics of \jin{Runtime} in \emph{Hadoop} and in the metrics of \jin{Runtime} in \emph{Rxjava}.
 
+\begin{table}[]
+	\centering
+	\footnotesize
+	\caption{Precision and recall of predicting the existence of performance regression}
+	\label{tab:logistic}
+\begin{tabular}{|c|c|r|c|r|c|r|c|r|}
+	\hline
+	\multirow{2}{*}{}             & \multicolumn{2}{c|}{Runtime}                          & \multicolumn{2}{c|}{CPU}                              & \multicolumn{2}{c|}{Memory}                           & \multicolumn{2}{c|}{IO}                               \\ \cline{2-9} 
+	& pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} \\ \hline
+	Hadoop                        & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
+	Rxjava                        & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
+	\multicolumn{1}{|l|}{Average} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} \\ \hline
+\end{tabular}
+\end{table}
+
+\fbox{\parbox{23.5em}{ \emph{We find that performance regression introducing changes are prevalent phenomenon. Logistic regression model can achieve high precision in the prediction of the existence performance regression.}}}

@@ -1,14 +1,32 @@
-
 %\noindent \textbf{Motivation}
+\textbf{Data and Approach.}
+In RQ1, we find that there exist prevalent performance regressions that are introduced by code changes. To address RQ2, we build a ordinal prediction model for the magnitude of performance regression introducing change based on the measures (see Table~\ref{tab:measures}) and effect size of the regression. we obtain the results of effect size (large, medium, small regression and not significant difference) for every test case in our subject systems. We also consider four types of performance counters.
 
-%In RQ1, we find that there exist prevalent performance regressions that are introduced by code changes. If we can understand what cause the introduction of these performance regressions, we may provide guidance or automated tooling support for developer to prevent the regressions during code change. 
+We follow two steps in our approach to predicting the magnitude of performance regression. First, we use \emph{Weka} to build the ordinal regression model. Second, we compare the accuracy between ordinal model with the logistic regression model builded in RQ1. 
 
-\noindent \textbf{Data and Approach}
-To address RQ2, we build a ordinal prediction model for the magnitude of performance regression introducing change based on the measures and effect size of the regression we identified. Our performance regression dataset contains the effect size how large the regression is, including \emph{large, medium, small, trivial and not significant}.
+To validate how well the model predicts the magnitude of performance regression introducing changes, we also use two metrics, \emph{precision} and \emph{recall}. And perform 10-fold cross validatoin to verify the stability of the prediction.
 
-%We follow two steps in our approach to discover the reasons of introducing performance regressions. First, we investigate the high-level context when these performance regressions are introduced. We identify the type of issues as the context (fixing a bug or developing new features) that are related to the performance regression introducing changes. 
+\textbf{Results.} We find that there exist more performance-regression-prone tests with large effect sizes than medium (see Table~\ref{tab:effect}). Such results imply that developers may not ignore these performance regressions since they may have large impact on system performance.
 
-%Second, we would like to know the code level root-causes (e.g., what kind of code change) of why the performance regressions are introduced. In particular, for each commit, we manually examine all the code changes and the corresponding test cases where performance regression are identified. We follow an iterative approach to identify the root-causes that the code change introduces performance regression, until we could not find any new reasons. 
+\textbf{Our predictor achieves an average precision of 80\% percent and recall of 80\% percent.} We employ our magnitude prediction model into these two systems and the result is shown in Table~\ref{tab:ordinal}. We can find that the average precision of \jin{X} percent in \emph{Hadoop} is higher than the average precision of \jin{Y} percent in \emph{Rxjava}. We infer that there are two reasons: 1) It is the size of the dataset that causes this distinction. The number of tuple is 1120 in \emph{Hadoop} and 7600 in \emph{Rxjava}. The larger size of the dataset is, the more strong the robustness is. 2) The measures EXP and REXP  are incomplete (missing value) in \emph{Hadoop} and we fill in the missing value by using a global constant. The filled-in value may not be correct and bias the original data.
 
-\noindent \textbf{Results.}
+\begin{table}[]
+	\centering
+	\footnotesize
+	\caption{Precision and recall of predicting the magnitude of performance regression}
+	\label{tab:ordinal}
+	\begin{tabular}{|c|c|r|c|r|c|r|c|r|}
+		\hline
+		\multirow{2}{*}{}             & \multicolumn{2}{c|}{Runtime}                          & \multicolumn{2}{c|}{CPU}                              & \multicolumn{2}{c|}{Memory}                           & \multicolumn{2}{c|}{IO}                               \\ \cline{2-9} 
+		& pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} \\ \hline
+		Hadoop                        & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
+		Rxjava                        & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
+		\multicolumn{1}{|l|}{Average} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} \\ \hline
+	\end{tabular}
+\end{table}
 
+\textbf{Our predictor performs better in the large effect than other effects on performance regression.} There are \jin{X} true possitive in large effect, \jin{Y} true posstive in medium effect, and \jin{Z} true possitive in the order class of \emph{not significant difference}.
+
+\textbf{Magnitude predictor performs worse than the existence predictor.} There are \jin{X} true possitive in large effect, \jin{Y} true posstive in medium effect, and \jin{Z} true possitive in the order class of \emph{not significant difference}.
+
+\fbox{\parbox{23.5em}{ \emph{We find that performance regression introducing changes are prevalent phenomenon. Logistic regression model can achieve high precision in the prediction of the existence performance regression.}}}
