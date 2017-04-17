@@ -75,7 +75,7 @@ To conduct our research, we extract the domain commit-level change measures and 
 
 CC can change the code that is executed and may cause more operation eventually executed by the software, leading to performance regressions. CL may significantly slow down performance. Locks are expensive actions for software performance. IL means that introducing locks and synchronization can suspend threads waiting on a lock until released, causing performance degradation on response time. FC is that developers may introduce expensive function calls with the function execution expensive by itself or executed a large number of time. EV means that some variables are more expensive to be held in memory and need more resources to visit or operate. 
 
-To extract performance-relevant change measures, we utilize tool \emph{srcML}~\cite{srcml_2017} to convert the same source code from current commit and its parent commit to XML file. Afterward, we employ \emph{diff} tool and regular expression to compare the source code.
+To extract performance-relevant change measures, we only need to focus on the file corresponding test case. We utilize tool \emph{srcML}~\cite{srcml_2017} to convert the source code of the same file from current commit and its parent commit to XML file. Afterward, we employ \emph{diff} tool and regular expression to compare the source code.
 
 \begin{table}[]
 	\centering
@@ -148,12 +148,17 @@ $$
 \subsubsection{Data Preprocessing}
 Before utilize the attributes to build our prediction models, we need to employ data preprocessing to make sure the data quality, including accuracy, completeness, consistency and timeliness. In our project, we perform data cleaning to fill in missing values, data transformation to normalize the raw data, and remove redundant data.
 
-In all the measures, missing value happens in the \emph{FIX, EXP and REXP}. Because a few commits without issue report so we cannot extract the purpose of this commit (FIX). And a few commits' contributors are not in the \emph{Hadoop} contributor official list~\cite{hadoop_2017} so we cannot calculate the EXP and REXP. In this case, we use a global constant to fill in the missing value. We replace all missing values by the same constant ``Unknown`` and ``1`` in measure FIX and EXP \& REXP, respectively.
+Missing value happens in the \emph{FIX, EXP and REXP} in our study. Because a few commits without issue report so we cannot extract the purpose of this commit (FIX). And a few commits' contributors are not in the \emph{Hadoop} contributor official list~\cite{hadoop_2017} so we cannot calculate the measures EXP and REXP. In this case, we use a global constant to fill in the missing value. We replace all missing values by the same constant ``Unknown`` and ``1`` in measure FIX and EXP \& REXP, respectively.
 
-The values of different attributes may have large different range due to various measurement units. It tends to give such an attribute with smaller units greater effect or weight. To help avoid data skew and give all measures an equal weight, the data should be normalized or standardized. In particular, we perform \emph{Min-max normalization} to transform our original data.
+Data normalization or standardization can help avoid data skew and give all measures an equal weight. The values of different attributes may have large different range due to various measurement units. It tends to give such an attribute with smaller units greater effect or weight. In particular, we perform \emph{Min-max normalization} to transform our original data.
 
 Redundancy is an essential issue in the data integration, which means that a measure may be redundant if it is derived from another measure or a set of measures. We employ correlation analysis to remove highly correlated measures. In particular, we use \emph{Correlation-based Feature Selection} and \emph{Information Gain Rate} technique to solve this problem.
 
 \subsubsection{Build prediction model of JIT performance regression}
-To predict the existence of performance regression introducing change, we will build the logistic regression model to firstly to predict whether or not the change causes regression. If thus, we will build ordinal model to predict the magnitude of performance regression introducing change.
+
+\textbf{Model building.} To predict the existence of performance regression introducing change, we will build the logistic regression model (logistic regression classification can be easy to interpret) firstly to predict whether or not the change causes regression. And to predict the magnitude of performance regression introducing change, we build a ordinal model to predict the effect size of performance regression.
+
+\textbf{Model evaluation.} We utilize two metrics to evaluate classifier performance, including \emph{precision} and \emph{recall}. It depends on confusion matrix which contains four terms consisting of \emph{true positives, true negatives, false positives and false negatives}. We perform stratified k-fold cross-validation for estimating accuracy and determine the \emph{k} as 10 due to its relatively low bias and variance.
+
+In particular, we use the most popular machine learning tool \emph{Weka}~\cite{Hall:2009:weka} to train the dataset and build the corresponding model. Fristly we build the model and predict the text data within project. Afterward, we employ the model to predict text data cross-project.
 
