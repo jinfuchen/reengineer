@@ -2,31 +2,46 @@
 \textbf{Data and Approach.}
 In RQ1, we find that there exist prevalent performance regressions that are introduced by code changes. To address RQ2, we build a ordinal prediction model for the magnitude of performance regression introducing change based on the measures (see Table~\ref{tab:measures}) and effect size of the regression. we obtain the results of effect size (large, medium, small regression and not significant difference) for every test case in our subject systems. We also consider four types of performance counters.
 
-We follow two steps in our approach to predicting the magnitude of performance regression. First, we use \emph{Weka} to build the ordinal regression model. Second, we compare the accuracy between ordinal model with the logistic regression model builded in RQ1. 
+We follow two steps in our approach to predicting the magnitude of performance regression. First, we use \emph{Weka} to build the ordinal regression model (OrdinalClassClassifier) to predict the effect size of regression in four performance metrics, \emph{Runtime, CPU, Memory and IO}. Second, we compare the accuracy between different metrics and compare the efficiency between ordinal model with the logistic regression model builded in RQ1. 
 
 To validate how well the model predicts the magnitude of performance regression introducing changes, we also use two metrics, \emph{precision} and \emph{recall}. And perform 10-fold cross validatoin to verify the stability of the prediction.
 
 \textbf{Results.} We find that there exist more performance-regression-prone tests with large effect sizes than medium (see Table~\ref{tab:effect}). Such results imply that developers may not ignore these performance regressions since they may have large impact on system performance.
 
-\textbf{Our predictor achieves an average precision of 80\% percent and recall of 80\% percent.} We employ our magnitude prediction model into these two systems and the result is shown in Table~\ref{tab:ordinal}. We can find that the average precision of \jin{X} percent in \emph{Hadoop} is higher than the average precision of \jin{Y} percent in \emph{Rxjava}. We infer that there are two reasons: 1) It is the size of the dataset that causes this distinction. The number of tuple is 1120 in \emph{Hadoop} and 7600 in \emph{Rxjava}. The larger size of the dataset is, the more strong the robustness is. 2) The measures EXP and REXP  are incomplete (missing value) in \emph{Hadoop} and we fill in the missing value by using a global constant. The filled-in value may not be correct and bias the original data.
+\textbf{Our predictor achieves an average precision of 54\% percent and recall of 66\% percent.} We employ our magnitude prediction model into these two systems and the result is shown in Table~\ref{tab:ordinal}. We can find that the average precision of 59\% percent in \emph{Hadoop} is higher than the average precision of 48\% percent in \emph{Rxjava}. The average precision of 60\% in performance counter \emph{Runtime} is higher than other three performance counters (around 50\%).  We infer that the correlation is low between the effect sizes calculated with runtime and the physical counters. On the other hand, the effect sizes calculated with the physical counters may have medium or large correlations with each other. We believe that these correlations are often due to the nature of the software itself (e.g., database accessing software may have its CPU usage highly correlated with I/O).
 
 \begin{table}[]
 	\centering
 	\footnotesize
-	\caption{Precision and recall of predicting the magnitude of performance regression}
+	\caption{Precision and recall of predicting the magnitude of performance regression.}
 	\label{tab:ordinal}
-	\begin{tabular}{|c|c|r|c|r|c|r|c|r|}
-		\hline
-		\multirow{2}{*}{}             & \multicolumn{2}{c|}{Runtime}                          & \multicolumn{2}{c|}{CPU}                              & \multicolumn{2}{c|}{Memory}                           & \multicolumn{2}{c|}{IO}                               \\ \cline{2-9} 
-		& pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} \\ \hline
-		Hadoop                        & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
-		Rxjava                        & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
-		\multicolumn{1}{|l|}{Average} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} \\ \hline
-	\end{tabular}
+\begin{tabular}{|c|r|r|r|r|r|r|r|r|}
+	\hline
+	\multirow{2}{*}{}             & \multicolumn{2}{c|}{Runtime(\%)}                      & \multicolumn{2}{c|}{CPU(\%)}                          & \multicolumn{2}{c|}{Memory(\%)}                       & \multicolumn{2}{c|}{IO(\%)}                           \\ \cline{2-9} 
+	& \multicolumn{1}{c|}{pre.} & \multicolumn{1}{c|}{rec.} & \multicolumn{1}{c|}{pre.} & \multicolumn{1}{c|}{rec.} & \multicolumn{1}{c|}{pre.} & \multicolumn{1}{c|}{rec.} & \multicolumn{1}{c|}{pre.} & \multicolumn{1}{c|}{rec.} \\ \hline
+	Hadoop                        & 67.5                      & 73.5                      & 48.8                      & 54.1                      & 54.7                      & 64.9                      & 65.7                      & 72.8                      \\ \hline
+	Rxjava                        & 52.2                      & 64.2                      & 45.7                      & 67.6                      & 45.9                      & 61.5                      & 48.5                      & 69.7                      \\ \hline
+	\multicolumn{1}{|l|}{Average} & 59.9                      & 68.9                      & 47.3                      & 60.8                      & 50.3                      & 63.2                      & 57.1                      & 71.3                      \\ \hline
+\end{tabular}
 \end{table}
 
-\textbf{Our predictor performs better in the large effect than other effects on performance regression.} There are \jin{X} true possitive in large effect, \jin{Y} true posstive in medium effect, and \jin{Z} true possitive in the order class of \emph{not significant difference}.
+\textbf{Our predictor performs better in the large effect than medium effect on performance regression.} 189 tests are large effect and 149 tests are medium effect on regression in \emph{Hadoop}. And 1745 benchmarks are large effect and 1355 benchmarks are medium effect on regression in \emph{Rxjava} (see Table~\ref{tab:effect}). The average precision of 56\% percent in large effect is higner than the average precision of 47\% percent in medium effect on regression (see Table~\ref{tab:preeffect}). It reflects that the change causing regression with large effect size carries more abvious change features. It is super meaningful because most developers focus more on the performance regression with large effect because in many cases, performance regression with large effect can cause large effect on users. Similarly, the precision of 69.5\% in \emph{Runtime} is higner than other performance counters in different effect sizes.
 
-\textbf{Magnitude predictor performs worse than the existence predictor.} There are \jin{X} true possitive in large effect, \jin{Y} true posstive in medium effect, and \jin{Z} true possitive in the order class of \emph{not significant difference}.
+\begin{table}[]
+	\centering
+	\footnotesize
+	\caption{Precision of predicting large and medium performance regression.}
+	\label{tab:preeffect}
+\begin{tabular}{|c|r|r|r|r|r|r|r|r|}
+	\hline
+	& \multicolumn{2}{c|}{Runtime(\%)}                      & \multicolumn{2}{c|}{CPU(\%)}                          & \multicolumn{2}{c|}{Memory(\%)}                       & \multicolumn{2}{c|}{IO(\%)}                           \\ \hline
+	& \multicolumn{1}{c|}{large} & \multicolumn{1}{c|}{med} & \multicolumn{1}{c|}{large} & \multicolumn{1}{c|}{med} & \multicolumn{1}{c|}{large} & \multicolumn{1}{c|}{med} & \multicolumn{1}{c|}{large} & \multicolumn{1}{c|}{med} \\ \hline
+	Hadoop                        & 65.6                       & 34.2                     & 55.3                       & 45.4                     & 41.7                       & 48.5                     & 46.8                       & 43.4                     \\ \hline
+	Rxjava                        & 73.3                       & 51.6                     & 67.6                       & 52.4                     & 65.8                       & 49.2                     & 32.1                       & 39.6                     \\ \hline
+	\multicolumn{1}{|l|}{Average} & 69.5                       & 47.9                     & 61.5                       & 48.9                     & 53.8                       & 48.8                     & 39.5                       & 41.5                     \\ \hline
+\end{tabular}
+\end{table}
 
-\fbox{\parbox{23.5em}{ \emph{We find that performance regression introducing changes are prevalent phenomenon. Logistic regression model can achieve high precision in the prediction of the existence performance regression.}}}
+\textbf{Magnitude predictor performs worse than the existence predictor.} The average precision of 70.3\% percent in the existence predictor is higner than the average precision of 54\% percent in the ordinal magnitude predictor. We infer the reason is that the two kinds of models train on the same dataset (change measure is the same). However, in the ordinal predictor it need to renognize five classes rather two classes in the logistic regrssion model. To imropve the accuracy of ordinal model, we should add more change measures based on the measures in the logistic model.
+
+\fbox{\parbox{23.5em}{ \emph{ Our predictor achieves an average precision of 54\% percent and recall of 66\% percent. We find that there exist more performance-regression-prone tests with large effect sizes than medium. Our predictor performs better in the large effect than medium effect on performance regression.}}}
