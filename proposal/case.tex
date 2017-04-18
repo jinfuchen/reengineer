@@ -87,8 +87,8 @@ To conduct our research, we extract the domain commit-level change measures and 
 	
 	\item \noindent
 	\textbf{Purpose.}
-	In this dimension we mainly investigate the rationale of current changes. When programmers decide to change the code, there can be different reasons like fixing bug, adding feature, improving feature, etc.
-	However, bug fix sometimes can be a dangerous action because it may introduce new defects, which will also cause performance regression. In our approach, we use issue tracking systems to define whether the type of current commit is a bug fixing. We use \textit{JIRA}, a widely adopted commercial issue tracking system, to gather information about hadoop commits. Unlike hadoop, Rxjava does not have its own independent JIRA database, but we can also fetch detailed issue reports from Github for further analysis. We use scripts to crawl issue type of each commit from both JIRA and Github, because their information is authentic and up to date. Then we can determine whether a change is because of bug fixing or not.
+	In this dimension we mainly investigate the rationale of current changes. When programmers decide to change the code, their initial purpose can vary a lot, such as fixing bug, adding new features, improving features, etc.
+	However, bug fix sometimes can be a dangerous action because it may unintentionally introduce new defects, which have high probability to cause performance regression. In our approach, we use issue tracking systems to define whether the type of current commit is a bug fixing. We use \textit{JIRA}, a widely adopted commercial issue tracking system, to gather information about hadoop commits. Unlike hadoop, Rxjava does not have its own independent JIRA database, but we can also fetch detailed issue reports from Github for further analysis. We use scripts to crawl issue type of each commit from both JIRA and Github, because their information is authentic and up to date. Then we can determine whether a change is because of bug fixing or not.
 	
 	\item \noindent
 	\textbf{History.}

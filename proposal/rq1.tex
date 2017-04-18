@@ -27,23 +27,23 @@ To validate how well the model predict performance regression introducing change
 	\end{tabular}
 \end{table*}
 
- \textbf{Our predictor achieves an average precision of 80\% percent and recall of 80\% percent.} We employ our prediction model into these two systems and the result is shown in Table~\ref{tab:logistic}. We can find that the average precision of \jin{X} percent in \emph{Hadoop} is higher than the average precision of \jin{Y} percent in \emph{Rxjava}. We infer that there are two reasons: 1) It is the size of the dataset that causes this distinction. The number of tuple is 1120 in \emph{Hadoop} and 7600 in \emph{Rxjava}. The larger size of the dataset is, the more strong the robustness is. 2) The measures EXP and REXP  are incomplete (missing value) in \emph{Hadoop} and we fill in the missing value by using a global constant. The filled-in value may not be correct and bias the original data.
+ \textbf{Our predictor achieves an average precision of 70.3\% and recall of 82.1\%.} We employ our prediction model into these two systems and the result is shown in Table~\ref{tab:logistic}. We can find that the average precision of 72.5\% in \emph{Hadoop} is higher than the average precision of 68.2\% in \emph{Rxjava}. We infer that there are two reasons: 1) It is the size of the dataset that causes this distinction. The number of tuple is 1120 in \emph{Hadoop} and 7600 in \emph{Rxjava}. But sometimes excessive data can lead to counteractive result, because the prediction model cannot be well fitting to all the data. Redundant data can even result in overfitting, which can significantly decrease the predictive performance.  2) The measures EXP and REXP  are incomplete (missing value) in \emph{Hadoop} and we fill in the missing value by using a global constant. The filled-in value may not be correct and bias the original data.
  
- \textbf{Our predictor performs better in the class of \emph{Runtime} regression.} In the four classification types, we find that the preditor performs better (\jin{X\%}) in the metrics of \jin{Runtime} in \emph{Hadoop} and in the metrics of \jin{Runtime} in \emph{Rxjava}.
+ \textbf{Our predictor performs better in the class of \emph{IO} regression.} In the four classification types, we find that the preditor performs better in the metrics of \jin{IO} in both \emph{Hadoop} (76.3\%) and in  \emph{Rxjava} (70.8\%). This is because unlike \emph{CPU} and \emph{Memory}, which allow dynamic resources allocattion according to different context, \emph{IO} excludes interference from external factors and enables the model to capture more accurate changing patterns.
 
 \begin{table}[]
 	\centering
 	\footnotesize
-	\caption{Precision and recall of predicting the existence of performance regression}
+	\caption{My caption}
 	\label{tab:logistic}
-\begin{tabular}{|c|c|r|c|r|c|r|c|r|}
-	\hline
-	\multirow{2}{*}{}             & \multicolumn{2}{c|}{Runtime}                          & \multicolumn{2}{c|}{CPU}                              & \multicolumn{2}{c|}{Memory}                           & \multicolumn{2}{c|}{IO}                               \\ \cline{2-9} 
-	& pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} & pre.                      & \multicolumn{1}{c|}{rec.} \\ \hline
-	Hadoop                        & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
-	Rxjava                        & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      & \multicolumn{1}{r|}{80\%} & 80\%                      \\ \hline
-	\multicolumn{1}{|l|}{Average} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} & \multicolumn{1}{l|}{80\%} \\ \hline
-\end{tabular}
+	\begin{tabular}{|c|r|r|r|r|r|r|r|r|}
+		\hline
+		\multicolumn{1}{|l|}{\multirow{2}{*}{}} & \multicolumn{2}{c|}{Runtime(\%)}                      & \multicolumn{2}{c|}{CPU(\%)}                          & \multicolumn{2}{c|}{Memory(\%)}                       & \multicolumn{2}{c|}{IO(\%)}                           \\ \cline{2-9} 
+		\multicolumn{1}{|l|}{}                  & \multicolumn{1}{c|}{pre.} & \multicolumn{1}{c|}{rec.} & \multicolumn{1}{c|}{pre.} & \multicolumn{1}{c|}{rec.} & \multicolumn{1}{c|}{pre.} & \multicolumn{1}{c|}{rec.} & \multicolumn{1}{c|}{pre.} & \multicolumn{1}{c|}{rec.} \\ \hline
+		Hadoop                                  & 70.5                      & 83.8                      & 69.1                      & 80.0                      & 73.9                      & 85.8                      & 76.3                      & 77.2                      \\ \hline
+		Rxjava                                  & 68.1                      & 82.5                      & 70.0                      & 83.6                      & 63.7                      & 79.8                      & 70.8                      & 84.1                      \\ \hline
+		Average                                 & 69.3                      & 83.2                      & 69.6                      & 81.8                      & 68.8                      & 82.8                      & 73.6                      & 80.7                      \\ \hline
+	\end{tabular}
 \end{table}
 
 \fbox{\parbox{23.5em}{ \emph{We find that performance regression introducing changes are prevalent phenomenon. Logistic regression model can achieve high precision in the prediction of the existence performance regression.}}}
