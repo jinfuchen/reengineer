@@ -1,17 +1,42 @@
+\textbf{Motivation.}
+A lot of change measures have impact on the performance regression and Each change measure has different impact on the software quality~\cite{emadjit}. If we can find the important change measures of performance regerssion we may give the guidance to support developer to focus more on the particular factors.
 
-%\noindent \textbf{Motivation}
+\textbf{Approach.}
+To address RQ3, we analyze and compare the regression coefficients of the logistic models from RQ1. To measure the effect of every change metric, we use the value of coefficients and odds ratio~\cite{Shihab:2010} in the logistic regression model. The coefficients are in fact the weights that are applied to each attribute before adding them together. We can keep all of the metrics at their original value, except for the metric whose effect we wish to measure. %We increase the value of that metric by 10\% off the original value and re-calculate the predicted probability. We then calculate the percentage of difference caused by increasing the value of that metric by 10\%. 
+The effect of a metric can be positive or negative. A positive effect means that a higher value of the factor increases the likelihood, whereas a negative effect means that a higher value of the factor decreases the likelihood of the dependent variable. The odds ratio is the exponent of the corresponding coefficient in the logistic regression model. It indicates how large of an influence a change to that value will have on the prediction. We will compare the two indices and find the more important measures, and try to interpret why the measures are more important.
 
-%In RQ1, we find that there exist prevalent performance regressions that are introduced by code changes. If we can understand what cause the introduction of these performance regressions, we may provide guidance or automated tooling support for developer to prevent the regressions during code change. 
+\textbf{Results.} \textbf{Change measure in the dimension of \emph{size} are more important than other dimension of change measures in the commit-level metrics. LA are more important change measure in the dimension of \emph{size}.} The result of  coefficients is shown in Table~\ref{tab:important}. Due to limited space, we only show the top three coefficients and odds ratios with the coresponding measures. Size dimension plays an risk-increasing role in the performance regression introducing changes. The finding is similar to prior research. Measures LT and LA in the dimension of size are more important than other measures. 
 
-\textbf{Data and Approach.}
-Each change measure has different impact on the software quality. Finding the more important change measure can guide delevopers and maintainers to be more concerned of these measures. To address RQ3, we analyze and compare the regression coefficients of the logistic models from RQ1 and RQ2. 
+We also find that  the risk-increasing measures are different between different performance counters. In the domain level metric of \emph{Runtime}, the change measure \emph{AGE} is more important than other measures except the \emph{size} change measures. However, in the physical metrics, the performance-relevant change measures such as \emph{Loop} and \emph{Syn} are more important. So the important change measures depend on the performance conter class.
 
-To measure the effect of every change metric, we keep all of the metrics at their original value, except for the metric whose effect we wish to measure. We increase the value of that metric by 10\% off the original value and re-calculate the predicted probability. We then calculate the percentage of difference caused by increasing the value of that metric by 10\%. The effect of a metric can be positive or negative. A positive effect means that a higher value of the factor increases the likelihood, whereas a negative effect means that a higher value of the factor decreases the likelihood of the dependent variable.
+\begin{table}[]
+	\centering
+	\footnotesize
+	%\small
+	\caption{Coeffients and odds ratio with the corresponding measures in the logistic regression model.}
+	\label{tab:important}
+\begin{tabular}{|c|c|r|r|r|r|}
+	\hline
+	\multicolumn{2}{|c|}{}                                                                             & \multicolumn{1}{c|}{Runtime} & \multicolumn{1}{c|}{CPU} & \multicolumn{1}{c|}{Memory} & \multicolumn{1}{c|}{IO} \\ \hline
+	\multirow{6}{*}{\begin{tabular}[c]{@{}c@{}}Coeffi\\ cients\end{tabular}} & \multirow{3}{*}{Hadoop} & AGE(2.39)                    & LD(0.40)                 & LT(0.74)                    & LT(1.38)                \\ \cline{3-6} 
+	&                         & LD(1.47)                     & En.(0.17)                & LD(0.63)                    & LA(1.15)                \\ \cline{3-6} 
+	&                         & LA(1.04)                     & Syn(0.15)                & Loop(0.57)                  & Loop(0.19)              \\ \cline{2-6} 
+	& \multirow{3}{*}{Rxjava} & LD(0.74)                     & Syn(0.48)                & LD(1.29)                    & Fix(0.07)               \\ \cline{3-6} 
+	&                         & Syn(0.18)                    & En.(0.45)                & Syn(0.21)                   & Loop(0.03)              \\ \cline{3-6} 
+	&                         & Fix(0.09)                    & Fix(0.38)                & En.(0.13)                   & En.(0.02)               \\ \hline
+	\multirow{6}{*}{\begin{tabular}[c]{@{}c@{}}Odds\\ ratio\end{tabular}}    & \multirow{3}{*}{Hadoop} & AGE(10.6)                    & LD(1.49)                 & LT(2.11)                    & LT(3.97)                \\ \cline{3-6} 
+	&                         & LD(4.35)                     & En.(1.19)                & LD(1.87)                    & LA(3.18)                \\ \cline{3-6} 
+	&                         & LA(2.84)                     & Syn(1.13)                & Loop(1.71)                  & Loop(1.19)              \\ \cline{2-6} 
+	& \multirow{3}{*}{Rxjava} & LD(2.22)                     & Syn(1.62)                & LD(3.64)                    & Fix(1.07)               \\ \cline{3-6} 
+	&                         & Syn(1.18)                    & En.(1.51)                & Syn(1.23)                   & Loop(1.02)              \\ \cline{3-6} 
+	&                         & Fix(1.09)                    & Fix(1.41)                & En.(1.12)                   & En.(1.02)               \\ \hline
+\end{tabular}
+\end{table}
 
-\textbf{Results.} \textbf{Change measure in the dimension of \emph{size} are more important than other dimension of change measures in the commit-level metrics. LA are more important change measure in the dimension of \emph{size}.}
+\textbf{Loop and Syn is more important other change measures in the dimension of performance-relevant meteics.}
+Our study focused on performance regression and 
 
-\textbf{CL is more important other change measures in the dimension of performance-relevant meteics.}
-
+\fbox{\parbox{23.5em}{ \emph{ Our predictor achieves an average precision of 54\% percent and recall of 66\% percent. We find that there exist more performance-regression-prone tests with large effect sizes than medium. Our predictor performs better in the large effect than medium effect on performance regression.}}}
 
 
 
