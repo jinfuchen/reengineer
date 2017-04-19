@@ -72,7 +72,7 @@ To conduct our research, we extract the domain commit-level change measures and 
  \textbf{Commit-level change measures.} We consider 12 change measures grouped into five dimensions.
 \begin{enumerate}[(i)]
 	\item \noindent
-	\textbf{Diffusion.} We use the diffusion of changes as metrics to indicate the probability that a change can introduce performance regression. In this dimension, first we investigate NS (Number of modified subsystems), ND (Number of modified directories) and NF (Number of modified files). As we introduced before, we use \textit{git log} command to get a list of changed files in current commit, each file path is divided into three parts: subsystem, directory and file, as Fig~\ref{fig:diffusion} shows, name of each subsystem is defined by the root directory name of each path, \textit{.java} file part represents the name of file, and the remaining part in the middle is used to identify the name of a directory. The correspoding measures can be conducted according to their occurance. As for Entropy, we calculate Shannon entropy using the following equations:
+	\textbf{Diffusion.} We use the diffusion of changes as metrics to indicate the probability that a change can introduce performance regression. In this dimension, first we investigate NS (Number of modified subsystems), ND (Number of modified directories) and NF (Number of modified files). From filtered commits, we use \textit{git diff} command to compare every two consecutive commits and we get a list of changed files for every commit, each file path is divided into three parts: subsystem, directory and file, as Fig~\ref{fig:diffusion} shows, name of each subsystem is defined by the root directory name of each path, \textit{.java} file part represents the name of file, and the remaining part in the middle is used to identify the name of a directory. The correspoding measures can be conducted according to their occurance. As for Entropy, we calculate Shannon entropy using the following equations:
 	\begin{equation}
 		Entropy = - \sum_{i=1}^{n}\left (p_{i}\ast \log_2 p_{i} \right )
 	\end{equation}
@@ -83,7 +83,7 @@ To conduct our research, we extract the domain commit-level change measures and 
 	
 	\item \noindent
 	\textbf{Size.}
-	We use LOC (Lines of Code without comment line and empty lines) as metrics to evaluate the Size changes. LA (LOC added) and LD (LOC deleted) can be obtained directly from the result of \textit{git log}, and we use \textit{cloc} to get LT (LOC before the change). \textit{cloc} is an open-source project designed to count lines of source code in many programming languages. The larger size of a change,  the higher probability of introducing performance regression.
+	We use LOC (Lines of Code without comment line and empty lines) as metrics to evaluate the Size changes. LA (LOC added) and LD (LOC deleted) can be obtained directly from the result of \textit{git diff}, and we use \textit{cloc} to get LT (LOC before the change). \textit{cloc} is an open-source project designed to count lines of source code in many programming languages. The larger size of a change,  the higher probability of introducing performance regression.
 	
 	\item \noindent
 	\textbf{Purpose.}
