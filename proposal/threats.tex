@@ -4,16 +4,13 @@
 
 \subsection{Internal Validity}
 
-\textbf{Subjective bias of manual analysis.} The manual analysis for root-causes of performance regression is subjective by definition, and it is very difficult, if not impossible, to ensure the correctness of all the inferred
-root-causes. We classified the root-causes into six categories; however, there may be different categorizations. Combining our manual analysis with controlled user studies on these performance regressions can further address this threat.
-
 \textbf{Selection of performance metrics.} Our approach requires performance metrics to measuring performance. In particular, we pick one commonly used domain level and four commonly used physical level performance metrics based on the nature of the subject systems. There exist a large number of other performance metrics. However, practitioners may require system-specific expertise to select an appropriate set of performance metrics that are important to their specific software. Future work can include more performance metrics based on the characteristic of the subject systems. 
+
+\textbf{Model validation.}
 
 \subsection{Construct Validity}
 
 \textbf{Monitoring performance of subject systems.} Our study is based on the ability to accurately monitor performance of our subject systems. This is based on the assumption that the performance monitoring library, i.e. \emph{psutil} can successfully and accurately providing performance metrics. This tool monitoring library is widely used in performance engineering research~\cite{peterfse,tarekmsr16}. To further validate our findings, other performance monitoring platforms (such as PerfMon~\cite{perfmon}) can be used. 
-
-\textbf{Issue report types. }We depend on the types of issues that are associated with each performance regression introducing commit. The issue report type may not be entirely accurate. For example, developers include extra code changes in issue reports with type \emph{documentation}. Firehouse-style user studies~\cite{thomasfritzfirehouse} can be adopted to better understand the context of performance regression introducing changes. 
 
 
 
