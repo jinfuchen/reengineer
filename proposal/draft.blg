@@ -1,0 +1,65 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: draft.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: bibliography.bib
+I was expecting a `,' or a `}'---line 690 of file bibliography.bib
+ : 
+ : @article{perfmon,
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "thomasfritzfirehouse"
+Warning--I didn't find a database entry for "jacktse"
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty author in Fawcett2006ROC
+
+Done.
+You've used 43 entries,
+            4087 wiz_defined-function locations,
+            1105 strings with 16133 characters,
+and the built_in function-call counts, 37366 in all, are:
+= -- 2920
+> -- 918
+< -- 339
++ -- 507
+- -- 152
+* -- 1826
+:= -- 5281
+add.period$ -- 106
+call.type$ -- 43
+change.case$ -- 41
+chr.to.int$ -- 816
+cite$ -- 44
+duplicate$ -- 2640
+empty$ -- 3110
+format.name$ -- 187
+if$ -- 8843
+int.to.chr$ -- 0
+int.to.str$ -- 43
+missing$ -- 471
+newline$ -- 158
+num.names$ -- 40
+pop$ -- 1118
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 2829
+stack$ -- 0
+substring$ -- 1930
+swap$ -- 2214
+text.length$ -- 67
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 43
+warning$ -- 1
+while$ -- 179
+width$ -- 45
+write$ -- 447
+(There was 1 error message)

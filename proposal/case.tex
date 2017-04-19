@@ -69,7 +69,7 @@ In practice, there may exist multiple commits that are made to accomplish one ta
 \subsubsection{Extracting change measures}
 To conduct our research, we extract the domain commit-level change measures and the file-level performance-relevant change measures from the CVS repositories of the projects. The overview of the change measures is shown in Table~\ref{tab:measures}.
 
- \textbf{Commit-level change measures.} Inspired by previous studies from \textit{Kamei et al.} and \textit{Mockus et al.}, we inherit their change measures and extend these measrues to performance prediction area. We consider 12 change measures grouped into five dimensions.
+ \textbf{Commit-level change measures.} Inspired by previous studies from \textit{Mockus et al.} and \textit{Kamei et al.} \cite{mockus2000predicting}\cite{Kamei2013TSE}, we inherit their change measures and extend these measrues to performance prediction area. We consider 12 change measures grouped into five dimensions.
 \begin{enumerate}[(i)]
 	\item \noindent
 	\textbf{Diffusion.} We use the diffusion of changes as metrics to indicate the probability that a change can introduce performance regression. In this dimension, first we investigate NS (Number of modified subsystems), ND (Number of modified directories) and NF (Number of modified files). From filtered commits, we use \textit{git diff} command to compare every two consecutive commits and we get a list of changed files for every commit, each file path is divided into three parts: subsystem, directory and file, as Fig~\ref{fig:diffusion} shows, name of each subsystem is defined by the root directory name of each path, \textit{.java} file part represents the name of file, and the remaining part in the middle is used to identify the name of a directory. The correspoding measures can be conducted according to their occurance. As for Entropy, we calculate Shannon entropy using the following equations:
@@ -96,7 +96,7 @@ To conduct our research, we extract the domain commit-level change measures and 
 	\begin{equation}
 		AGE = \frac{T_{Avg}-T_{Min}}{T_{Max}-T_{Min}}
 	\end{equation}
-	The three parameters in the equation refer to the average, maximum and minimum number in previous list. 
+	The three parameters in the equation refer to the average,Inspired by previous studies from \textit{Kamei et al.} and \textit{Mockus et al.}, we inherit their change measures and extend these measrues to performance prediction area. maximum and minimum number in previous list. 
 	
 	\item \noindent
 	\textbf{Experience.}
@@ -199,7 +199,7 @@ Redundancy is an essential issue in the data integration, which means that a mea
 \textbf{Model building.} TFirst, we want to build logistic regression model to predict the existence of performance regression introducing change, we will build th. We choose logistic regression model (logistic regression classification can be easy to interpret) firstlybecause it is easy to interpre. Second, we build a ordinal model to predict wthether or not the change causes regression. And to predict the magnitude of performance regression introducing change, we build a ordinal model to predict the effect size effect size of performance regression. Our ordinal class consists of not significant difference, small, medium and large regression. Standard classification algorithms consider the class value as a nominal quantity so that it cannot operate this ordering information. Thrid, we use the coefficient and odds ratio to compare and find the important change measures of performance regression.
 
 
-\textbf{Model evaluation.} We utilize three metrics to evaluate classifier performance, including \emph{precision} and, \emph{recall} and \emph{AUC}~\cite{Fawcett2006ROC}. It depends on confusion matrix which contains four terms consisting of \emph{true positives, true negatives, false positives and false negatives}. We perform stratified k-fold cross-validation for estimating accuracy and determine the \emph{k} as 10 due to its relatively low bias and variance.
+\textbf{Model evaluation.} We utilize three metrics to evaluate classifier performance, including \emph{precision}, \emph{recall} and \emph{AUC}~\cite{Fawcett2006ROC}. It depends on confusion matrix which contains four terms consisting of \emph{true positives, true negatives, false positives and false negatives}. We perform stratified k-fold cross-validation for estimating accuracy and determine the \emph{k} as 10 due to its relatively low bias and variance.
 
 In particular, we use the most popular machine learning tool \emph{Weka}~\cite{Hall:2009:weka} to train the dataset and build the corresponding model. Fristly we build the model and predict the text data within project. Afterward, we employ the model to predict text data cross-project.
 
