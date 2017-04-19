@@ -3,6 +3,28 @@ In this section we will explain our methodology in more detail. At first we depi
 \subsection{Subject systems}
 
 We choose two open-source projects, \emph{Hadoop} and \emph{RxJava} as the subject systems of our case study. \emph{Hadoop}~\cite{hadoop2012:White} is a distributed system infrastructure developed by the Apache Foundation. \emph{Hadoop} performs data processing in a reliable, efficient, high fault tolerance, low cost and scalable manner. We choose \emph{Hadoop} since it is highly concerned with its performance and has been studied in prior research in mining performance data~\cite{markASE}. \emph{RxJava} is a library for composing asynchronous and event-based programs by using observable sequences and it carries the JMH benchmarks test options. \emph{RxJava} is a \emph{Java} VM implementation of reactive extensions. \emph{RxJava} provides a slew of performance micro-benchmarks, making it an appropriate subject for our study. We choose the most recent releases of the two subject systems. The overview of the two subject systems is shown in Table~\ref{tab:subject}. 
+\begin{comment}
+ \begin{table}[tbh]
+ 	\centering
+ 	\small
+	\caption{Overview of our subject systems.}
+	\label{tab:subject}
+	 	\begin{tabular}{llll}
+ 		\hline
+ 		Subjects&Version&Total lines of code (K)& No. of files \\\hline
+ 		Hadoop& 2.7.0              &1552      & 6,431     \\ 
+ 		Hadoop& 2.7.1              &1556      & 6,423     \\ 
+ 		Hadoop& 2.7.2              &1562      & 6,434     \\ 
+ 		Hadoop& 2.7.3			&1568		&6,439		\\\hline
+ 		RxJava&  2.0.0           & 164       & 1,107         \\ 
+ 		RxJava&  2.0.1			 &242		 &1,513		\\
+ 		RxJava&  2.0.2			&243			&1,524	\\
+ 		RxJava&  2.0.3			&244			&1,524	\\
+ 		RxJava&  2.0.4			&244			&1,526	\\\hline
+ 	\end{tabular}
+\end{table}
+\end{comment}
+
 \begin{table}[tbh]
 	\centering
 	\small
@@ -47,10 +69,10 @@ In practice, there may exist multiple commits that are made to accomplish one ta
 \subsubsection{Extracting change measures}
 To conduct our research, we extract the domain commit-level change measures and the file-level performance-relevant change measures from the CVS repositories of the projects. The overview of the change measures is shown in Table~\ref{tab:measures}.
 
- \textbf{Commit-level change measures.} We consider 12 change measures grouped into five dimensions.
+ \textbf{Commit-level change measures.} Inspired by previous studies from \textit{Mockus et al.} and \textit{Kamei et al.} \cite{mockus2000predicting}\cite{Kamei2013TSE}, we inherit their change measures and extend these measrues to performance prediction area. We consider 12 change measures grouped into five dimensions.
 \begin{enumerate}[(i)]
 	\item \noindent
-	\textbf{Diffusion.} We use the diffusion of changes as metrics to indicate the probability that a change can introduce performance regression. In this dimension, first we investigate NS (Number of modified subsystems), ND (Number of modified directories) and NF (Number of modified files). As we introduced before, we use \textit{git log} command to get a list of changed files in current commit, each file path is divided into three parts: subsystem, directory and file, as Fig~\ref{fig:diffusion} shows, name of each subsystem is defined by the root directory name of each path, \textit{.java} file part represents the name of file, and the remaining part in the middle is used to identify the name of a directory. The correspoding measures can be conducted according to their occurance. As for Entropy, we calculate Shannon entropy using the following equations:
+	\textbf{Diffusion.} We use the diffusion of changes as metrics to indicate the probability that a change can introduce performance regression. In this dimension, first we investigate NS (Number of modified subsystems), ND (Number of modified directories) and NF (Number of modified files). From filtered commits, we use \textit{git diff} command to compare every two consecutive commits and we get a list of changed files for every commit, each file path is divided into three parts: subsystem, directory and file, as Fig~\ref{fig:diffusion} shows, name of each subsystem is defined by the root directory name of each path, \textit{.java} file part represents the name of file, and the remaining part in the middle is used to identify the name of a directory. The correspoding measures can be conducted according to their occurance. As for Entropy, we calculate Shannon entropy using the following equations:
 	\begin{equation}
 		Entropy = - \sum_{i=1}^{n}\left (p_{i}\ast \log_2 p_{i} \right )
 	\end{equation}
@@ -61,7 +83,7 @@ To conduct our research, we extract the domain commit-level change measures and 
 	
 	\item \noindent
 	\textbf{Size.}
-	We use LOC (Lines of Code without comment line and empty lines) as metrics to evaluate the Size changes. LA (LOC added) and LD (LOC deleted) can be obtained directly from the result of \textit{git log}, and we use \textit{cloc} to get LT (LOC before the change). \textit{cloc} is an open-source project designed to count lines of source code in many programming languages. The larger size of a change,  the higher probability of introducing performance regression.
+	We use LOC (Lines of Code without comment line and empty lines) as metrics to evaluate the Size changes. LA (LOC added) and LD (LOC deleted) can be obtained directly from the result of \textit{git diff}, and we use \textit{cloc} to get LT (LOC before the change). \textit{cloc} is an open-source project designed to count lines of source code in many programming languages. The larger size of a change,  the higher probability of introducing performance regression.
 	
 	\item \noindent
 	\textbf{Purpose.}
@@ -74,7 +96,7 @@ To conduct our research, we extract the domain commit-level change measures and 
 	\begin{equation}
 		AGE = \frac{T_{Avg}-T_{Min}}{T_{Max}-T_{Min}}
 	\end{equation}
-	The three parameters in the equation refer to the average, maximum and minimum number in previous list. 
+	The three parameters in the equation refer to the average,Inspired by previous studies from \textit{Kamei et al.} and \textit{Mockus et al.}, we inherit their change measures and extend these measrues to performance prediction area. maximum and minimum number in previous list. 
 	
 	\item \noindent
 	\textbf{Experience.}
@@ -185,7 +207,7 @@ For example, \emph{Hadoop} release2.7.3 contains 1786 test cases in total. Exerc
 
 Therefore, in this step, we leverage a heuristic to identify impacted tests for each commit. In particular, we find that \emph{Hadoop} test cases follow a naming convention that the name of the test files contain that same name of the source code files being tested. For example, a test file named \emph{TestFSNamesystem.java} tests the functionality of \emph{FSNamesystem.java}. Hence, for each changed source code file in a commit, we automatically identify the test files. 
 
-\textbf{Dealing with changed tests.} Some commits may change source code and test code at the same time. Such changed test cases would bias the performance evaluation if much testing logic is added, removed or modified in the test cases. In order to minimize the impact of changed test cases in performance evaluation, we opt to use the test code before the code change, since the new version of the test cases may include new features of the system, which is not the major concern of performance regression. However, in the cases where old test cases cannot compile or failed, we use the new test cases, since the failure of the compilation or the tests indicates that the old feature may be outdated. Finally, if both new and old test cases are failed or un-compliable, we do not include this test in the performance evaluation. In total, we have 132 tests with 106 commits that use the new tests to evaluate performance and 21 test with 19 commits that are not included in our performance evaluation. There exist only six commits that are not included at all because all of their tests are either un-compliable or failed.
+%\textbf{Dealing with changed tests.} Some commits may change source code and test code at the same time. Such changed test cases would bias the performance evaluation if much testing logic is added, removed or modified in the test cases. In order to minimize the impact of changed test cases in performance evaluation, we opt to use the test code before the code change, since the new version of the test cases may include new features of the system, which is not the major concern of performance regression. However, in the cases where old test cases cannot compile or failed, we use the new test cases, since the failure of the compilation or the tests indicates that the old feature may be outdated. Finally, if both new and old test cases are failed or un-compliable, we do not include this test in the performance evaluation. In total, we have 132 tests with 106 commits that use the new tests to evaluate performance and 21 test with 19 commits that are not included in our performance evaluation. There exist only six commits that are not included at all because all of their tests are either un-compliable or failed.
 
 \textbf{Leveraging micro-benchmarks for \emph{RxJava}. }Fortunately, \emph{RxJava} provides a slew of micro-benchmarks with the goal of easing performance evaluation. We find that these performance micro-benchmarks are designed to evaluate performance of the software as a cross-cutting concern, instead of evaluating any particular features separately. Therefore, we opt to run all 76 micro-benchmarks from \emph{RxJava}. In the rest of this paper, we also refer these micro-benchmarks as test cases to ease the description of our results.
 
@@ -227,11 +249,11 @@ Redundancy is an essential issue in the data integration, which means that a mea
 
 \subsubsection{Build prediction model of JIT performance regression}
 
-\textbf{Model building.} First, we want to build logistic regression model to predict the existence of performance regression introducing change. We choose logistic regression model because it is easy to interpre. Second, we build a ordinal model to predict the effect size of performance regression. Our ordinal class consists of not significant difference, small, medium and large regression. Standard classification algorithms consider the class value as a nominal quantity so that it cannot operate this ordering information. Thrid, we use the coefficient and odds ratio to compare and find the important change measures of performance regression.
+\textbf{Model building.} First, we want to build logistic regression model to predict the existence of performance regression introducing change, we will build th. We choose logistic regression model (logistic regression classification can be easy to interpret) firstlybecause it is easy to interpre. Second, we build a ordinal model to predict wthether or not the change causes regression. And to predict the magnitude of performance regression introducing change, we build a ordinal model to predict the effect size effect size of performance regression. Our ordinal class consists of not significant difference, small, medium and large regression. Standard classification algorithms consider the class value as a nominal quantity so that it cannot operate this ordering information. Thrid, we use the coefficient and odds ratio to compare and find the important change measures of performance regression.
 
-
-\textbf{Model evaluation.} We utilize three metrics to evaluate classifier performance, including \emph{precision}, \emph{recall}. It depends on confusion matrix which contains four terms consisting of \emph{true positives, true negatives, false positives and false negatives}. 
+\textbf{Model evaluation.} We utilize two metrics to evaluate classifier performance, including \emph{precision}, \emph{recall}. It depends on confusion matrix which contains four terms consisting of \emph{true positives, true negatives, false positives and false negatives}. 
 We perform stratified k-fold cross-validation for estimating accuracy and determine the \emph{k} as 10 due to its relatively low bias and variance.
+
 
 In particular, we use the most popular machine learning tool \emph{Weka}~\cite{Hall:2009:weka} to train the dataset and build the corresponding model. Fristly we build the model and predict the text data within project. Afterward, we employ the model to predict text data cross-project.
 
