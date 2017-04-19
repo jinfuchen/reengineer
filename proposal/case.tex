@@ -3,28 +3,6 @@ In this section we will explain our methodology in more detail. At first we depi
 \subsection{Subject systems}
 
 We choose two open-source projects, \emph{Hadoop} and \emph{RxJava} as the subject systems of our case study. \emph{Hadoop}~\cite{hadoop2012:White} is a distributed system infrastructure developed by the Apache Foundation. \emph{Hadoop} performs data processing in a reliable, efficient, high fault tolerance, low cost and scalable manner. We choose \emph{Hadoop} since it is highly concerned with its performance and has been studied in prior research in mining performance data~\cite{markASE}. \emph{RxJava} is a library for composing asynchronous and event-based programs by using observable sequences and it carries the JMH benchmarks test options. \emph{RxJava} is a \emph{Java} VM implementation of reactive extensions. \emph{RxJava} provides a slew of performance micro-benchmarks, making it an appropriate subject for our study. We choose the most recent releases of the two subject systems. The overview of the two subject systems is shown in Table~\ref{tab:subject}. 
-\begin{comment}
- \begin{table}[tbh]
- 	\centering
- 	\small
-	\caption{Overview of our subject systems.}
-	\label{tab:subject}
-	 	\begin{tabular}{llll}
- 		\hline
- 		Subjects&Version&Total lines of code (K)& No. of files \\\hline
- 		Hadoop& 2.7.0              &1552      & 6,431     \\ 
- 		Hadoop& 2.7.1              &1556      & 6,423     \\ 
- 		Hadoop& 2.7.2              &1562      & 6,434     \\ 
- 		Hadoop& 2.7.3			&1568		&6,439		\\\hline
- 		RxJava&  2.0.0           & 164       & 1,107         \\ 
- 		RxJava&  2.0.1			 &242		 &1,513		\\
- 		RxJava&  2.0.2			&243			&1,524	\\
- 		RxJava&  2.0.3			&244			&1,524	\\
- 		RxJava&  2.0.4			&244			&1,526	\\\hline
- 	\end{tabular}
-\end{table}
-\end{comment}
-
 \begin{table}[tbh]
 	\centering
 	\small
@@ -113,7 +91,60 @@ To conduct our research, we extract the domain commit-level change measures and 
 
 \textbf{Performance-relevant change measures.} Simultaneously, we extract performance-relevent change measures automatically, including CC (changing conditions), CL (changing loops), FC (changing function calls), IL (Introducing locks and synchronization) and EV (expensive variables). The first three measures are most relevent to performance~\cite{ACM2016:Luo}. Also, after we find the performance regression we check the source code manully and find that IL and EV are also the most root-cause of regression. 
 
-CC can change the code that is executed and may cause more operation eventually executed by the software, leading to performance regressions. CL may significantly slow down performance. Locks are expensive actions for software performance. IL means that introducing locks and synchronization can suspend threads waiting on a lock until released, causing performance degradation on response time. FC is that developers may introduce expensive function calls with the function execution expensive by itself or executed a large number of time. EV means that some variables are more expensive to be held in memory and need more resources to visit or operate. 
+CC can change the code that is executed and may cause more operation eventually executed by the software, leading to performance regressions. CL may significantly slow down performance. Locks are expensive actions for software performance. IL means that introducing locks and synchronization can suspend threads waiting on a lock until released, causing performance degradation on response time.  For example, in commit \#2946621a in Hadoop, developers added synchronized operation to lock the block in class Met- ricsSourceAdapter.java, in order to protest the shared resources used by the two functions inside the block (see figure~\ref{fig:1b}). FC is that developers may introduce expensive function calls with the function execution expensive by itself or executed a large number of time. For example, in class Mover.java of commit \#c927f938 in Hadoop. Developers added an API call shuffle of Collections inside a loop, leading to the performance regression (see figure~\ref{fig:1a}).
+EV means that some variables are more expensive to be held in memory and need more resources to visit or operate. 
+
+\begin{figure*}
+	\centering
+	\begin{subfigure}{\textwidth}% -----------------------------------------1111111one code pair
+		\begin{subfigure}{0.51\textwidth}
+			\begin{lstlisting}[language=Java]
+			for (StorageType t : targetTypes) {																		
+			-  for(StorageGroup target:storages.getTargetStorages(t)) {
+			
+			
+			if (matcher.match(cluster, source.getDatanodeInfo(),
+			target.getDatanodeInfo())) {
+			final PendingMove pm = source.addPendingMove(db, target);
+			\end{lstlisting}
+		\end{subfigure}
+		\begin{subfigure}{0.51\textwidth}
+			\begin{lstlisting}[language=Java]
+			for (StorageType t : targetTypes) {																		
+			+ final List<StorageGroup> targets=storages.getTargetStorages(t);
+			+ Collections.shuffle(targets); 
+			+ for (StorageGroup target : targets) {
+			if (matcher.match(cluster, source.getDatanodeInfo(),
+			target.getDatanodeInfo())) {
+			final PendingMove pm = source.addPendingMove(db, target);
+			\end{lstlisting}
+		\end{subfigure}
+		\caption{Code change of changing function call in issue \#HDFS-10335 of commit \#c927f938}\label{fig:1a}
+	\end{subfigure}
+	\vspace*{\fill} % separation between the subfigures
+	\begin{subfigure}{\textwidth}% ----------------------------------------555555555 one code pair
+		\begin{subfigure}{0.51\textwidth}
+			\begin{lstlisting}[language=java]
+			
+			updateAttrCache();
+			if (getAllMetrics) {		       
+			updateInfoCache();		       
+			}
+			\end{lstlisting}
+		\end{subfigure}
+		\begin{subfigure}{0.51\textwidth}
+			\begin{lstlisting}[language=Java]
+			+  synchronized(this) {
+			updateAttrCache();
+			if (getAllMetrics) {		       
+			updateInfoCache();		       
+			}
+			\end{lstlisting}
+		\end{subfigure}
+		\caption{Code change of introducing synchronization in issue \#HADOOP-11361 of commit \#2946621a}\label{fig:1b}
+	\end{subfigure}
+	\caption{Examples of performance regression introducing changes} \label{fig:example}
+\end{figure*}
 
 To extract performance-relevant change measures, we only need to focus on the file corresponding test case. We utilize tool \emph{srcML}~\cite{srcml_2017} to convert the source code of the same file from current commit and its parent commit to XML file. Afterward, we employ \emph{diff} tool and regular expression to compare the source code.
 
@@ -154,7 +185,7 @@ For example, \emph{Hadoop} release2.7.3 contains 1786 test cases in total. Exerc
 
 Therefore, in this step, we leverage a heuristic to identify impacted tests for each commit. In particular, we find that \emph{Hadoop} test cases follow a naming convention that the name of the test files contain that same name of the source code files being tested. For example, a test file named \emph{TestFSNamesystem.java} tests the functionality of \emph{FSNamesystem.java}. Hence, for each changed source code file in a commit, we automatically identify the test files. 
 
-%\textbf{Dealing with changed tests.} Some commits may change source code and test code at the same time. Such changed test cases would bias the performance evaluation if much testing logic is added, removed or modified in the test cases. In order to minimize the impact of changed test cases in performance evaluation, we opt to use the test code before the code change, since the new version of the test cases may include new features of the system, which is not the major concern of performance regression. However, in the cases where old test cases cannot compile or failed, we use the new test cases, since the failure of the compilation or the tests indicates that the old feature may be outdated. Finally, if both new and old test cases are failed or un-compliable, we do not include this test in the performance evaluation. In total, we have 132 tests with 106 commits that use the new tests to evaluate performance and 21 test with 19 commits that are not included in our performance evaluation. There exist only six commits that are not included at all because all of their tests are either un-compliable or failed.
+\textbf{Dealing with changed tests.} Some commits may change source code and test code at the same time. Such changed test cases would bias the performance evaluation if much testing logic is added, removed or modified in the test cases. In order to minimize the impact of changed test cases in performance evaluation, we opt to use the test code before the code change, since the new version of the test cases may include new features of the system, which is not the major concern of performance regression. However, in the cases where old test cases cannot compile or failed, we use the new test cases, since the failure of the compilation or the tests indicates that the old feature may be outdated. Finally, if both new and old test cases are failed or un-compliable, we do not include this test in the performance evaluation. In total, we have 132 tests with 106 commits that use the new tests to evaluate performance and 21 test with 19 commits that are not included in our performance evaluation. There exist only six commits that are not included at all because all of their tests are either un-compliable or failed.
 
 \textbf{Leveraging micro-benchmarks for \emph{RxJava}. }Fortunately, \emph{RxJava} provides a slew of micro-benchmarks with the goal of easing performance evaluation. We find that these performance micro-benchmarks are designed to evaluate performance of the software as a cross-cutting concern, instead of evaluating any particular features separately. Therefore, we opt to run all 76 micro-benchmarks from \emph{RxJava}. In the rest of this paper, we also refer these micro-benchmarks as test cases to ease the description of our results.
 
@@ -196,9 +227,11 @@ Redundancy is an essential issue in the data integration, which means that a mea
 
 \subsubsection{Build prediction model of JIT performance regression}
 
-\textbf{Model building.} To predict the existence of performance regression introducing change, we will build the logistic regression model (logistic regression classification can be easy to interpret) firstly to predict whether or not the change causes regression. And to predict the magnitude of performance regression introducing change, we build a ordinal model to predict the effect size of performance regression.
+\textbf{Model building.} First, we want to build logistic regression model to predict the existence of performance regression introducing change. We choose logistic regression model because it is easy to interpre. Second, we build a ordinal model to predict the effect size of performance regression. Our ordinal class consists of not significant difference, small, medium and large regression. Standard classification algorithms consider the class value as a nominal quantity so that it cannot operate this ordering information. Thrid, we use the coefficient and odds ratio to compare and find the important change measures of performance regression.
 
-\textbf{Model evaluation.} We utilize two metrics to evaluate classifier performance, including \emph{precision} and \emph{recall}. It depends on confusion matrix which contains four terms consisting of \emph{true positives, true negatives, false positives and false negatives}. We perform stratified k-fold cross-validation for estimating accuracy and determine the \emph{k} as 10 due to its relatively low bias and variance.
+
+\textbf{Model evaluation.} We utilize three metrics to evaluate classifier performance, including \emph{precision}, \emph{recall} and \emph{AUC}~\cite{Fawcett2006ROC}. It depends on confusion matrix which contains four terms consisting of \emph{true positives, true negatives, false positives and false negatives}. 
+We perform stratified k-fold cross-validation for estimating accuracy and determine the \emph{k} as 10 due to its relatively low bias and variance.
 
 In particular, we use the most popular machine learning tool \emph{Weka}~\cite{Hall:2009:weka} to train the dataset and build the corresponding model. Fristly we build the model and predict the text data within project. Afterward, we employ the model to predict text data cross-project.
 
