@@ -77,23 +77,24 @@ citecolor=black
 \IEEEauthorblockA{Department of Software Engineering \\
 Concordia University\\
 Montreal, Canada\\
-\{ku\_yao,fu\_chen\}@encs.concordia.ca}
+\{ku\_yao, fu\_chen\}@encs.concordia.ca}
 }
 % make the title area
 \maketitle
-\begin{comment}
-
 
 \begin{abstract}
-Performance is an important aspect of software quality. Performance issues may compromise user experiences, increase the operating cost of the system, and cause field failures. In fact, large software systems failures are often due to performance issues rather than functional bugs. One of the most prevalent performance issues is performance regression. Examples of performance regressions are response time degradation and higher than before resource utilization. Although prior research proposes various automated approaches that detect performance regressions, the detection is conducted after fact, i.e., after the system is built and deployed in the field or dedicated performance testing environments. On the other hand, there exists rich software quality research that examines the impact of code changes on software quality; while majority of prior findings do not use performance regression as a sign of software quality degradation. In this paper, we perform an exploratory study on the source code changes that introduce performance regressions. We conduct a statistically rigorous performance evaluation on 376 commits from two releases of \emph{Hadoop} and 135 commits from five releases of \emph{RxJava}. In particular, we identify performance regressions in each commit if there exists statistically significant and non-trivial performance degradation, in terms of either response time, CPU usage, Memory usage or I/O traffic, compared to the last commit. By manually examining the JIRA issue reports that are associated with the identified performance regression introducing commits, we find that the majority of the performance regressions are introduced while fixing other bugs. In addition, we find that most of such regressions are due to expensive function calls. Our findings suggest that developers may introduce performance regressions when completing code changing tasks without considering the impact on performance. Automated tooling support can be proposed to help developers be aware of the possible performance impact while changing source code.
+Performance is an important aspect of software quality. Performance issues may compromise user experiences, increase the operating cost of the system, and cause field failures. In fact, large software systems failures are often due to performance issues rather than functional bugs. One of the most prevalent performance issues is performance regression.
+Due to the lack of real-time performance regression detecting tools, these issues can survive inside the system for a long period, and threaten the quality of the system. Although prior research proposes various automated approaches that predict performance regressions, the detection is conducted after the fact, i.e., after the system is built and deployed in the field or dedicated performance testing environments. We employ a statistically rigorous performance evaluation on 1020 commits from ten releases of \emph{Hadoop} and 135 commits from five releases of \emph{RxJava}, and conduct an empirical study on the JIT prediction of performance regression introducing code changes in these two systems. We find that Performance regressions are not rare instances. Our predictor an average precision of 70.3\% and 54\% percent in the prediction of existence and magnitude of performance regression, respectively. In addition, we find that change measures in dimension Size are more risk-increasing factors. Change measures \emph{Loop} and \emph{Synchronization} are more likely to cause performance regression. 
+
+
+%In our study, in order to avoid latent performance issues, we inherit theories from bug predicting models and extend them into performance domain, and we propose a just in time performance regression predicting model in commit level. Therefore, with the help of our model, it is applicable for developers to realize performance issues before they commit their changes. 
 
 \end{abstract}
 
 \begin{IEEEkeywords}
-Performance Regression; Code Changes; Mining Software Repositories
+Performance Regression prediction; Just-in-time prediction; Code Changes; Mining Software Repository
 \end{IEEEkeywords}
 
-\end{comment}
 
 % For peer review papers, you can put extra information on the cover
 % page as needed:
